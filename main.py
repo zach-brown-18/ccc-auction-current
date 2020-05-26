@@ -1,10 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     return render_template("home.html")
+
+@app.route("/signIn", methods = ["POST"])
+def signIn():
+    name = request.form["name"]
+    member_id = request.form["member_id"]
+    print(f"{name} {member_id}")
+    return redirect("/")
 
 @app.route("/about")
 def about():
