@@ -6,12 +6,12 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route("/signin", methods = ["POST"])
+@app.route("/signin", methods = ["GET", "POST"])
 def signIn():
     name = request.form["name"]
     member_id = request.form["member_id"]
     # print(f"{name} {member_id}")
-    return redirect("/")
+    return render_template("home.html")
 
 @app.route("/about")
 def about():
