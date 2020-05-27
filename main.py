@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route("/signIn", methods = ["POST"])
+@app.route("/signin", methods = ["POST"])
 def signIn():
     name = request.form["name"]
     member_id = request.form["member_id"]
