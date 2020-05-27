@@ -10,7 +10,7 @@ def home():
 def signIn():
     name = request.form["name"]
     member_id = request.form["member_id"]
-    print(f"{name} {member_id}")
+    # print(f"{name} {member_id}")
     return redirect("/")
 
 @app.route("/about")
