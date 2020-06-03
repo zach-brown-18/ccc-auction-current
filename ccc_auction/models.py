@@ -1,0 +1,42 @@
+from datetime import datetime
+from ccc_auction import db
+
+
+class Bidder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    biddername = db.Column(db.String(30), nullable=False)
+    items = db.relationship('Item', backref='current_bidder', lazy=True)   # Linked to Item class through 'bidder_id'
+
+    def __repr__(self):
+        return f"Bidder('{self.biddername}', '{self.id}')'"
+
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    itemname = db.Column(db.String(30), unique=True, nullable=False)
+    grouping = db.Column(db.String(40), nullable=False)
+    description = db.Column(db.String(250))
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    
+    bidder_id = db.Column(db.Integer, db.ForeignKey('bidder.id'), nullable=False)   # Linked to Bidder class
+    current_bid = db.Column(db.Integer, nullable=False)
+
+    item_background = db.relationship('ItemPreset', backref='bid_preset', lazy=True)   # Linked to ItemPreset class through 'item_id'
+
+    def __repr__(self):
+        return f"Item('{self.itemname}', '{self.grouping}', '{self.image_file}')"
+
+
+class ItemPreset(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    open_bid = db.Column(db.Integer, nullable=False)
+    raise_value = db.Column(db.Integer, nullable=False)
+    list_value = db.Column(db.Integer)
+
+    open_time = db.Column(db.DateTime, nullable=False)
+    close_time = db.Column(db.DateTime, nullable=False)
+
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)   # Linked to Item class
+
+    def __repr__(self):
+        return f"Item Preset('{self.open_bid}', '{self.raise_value}', '{self.list_value}', '{self.open_time}', '{self.close_time}')"
