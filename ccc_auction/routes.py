@@ -13,7 +13,7 @@ def home():
 def logIn():
     form = LoginForm()
     if form.validate_on_submit():
-        bidder = Bidder.query.filter_by(form.biddername.data).first()
+        bidder = Bidder.query.filter_by(biddername=form.biddername.data).first()
         if bidder and bcrypt.check_password_hash(bidder.password, form.password.data):
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('items'))
