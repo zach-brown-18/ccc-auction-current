@@ -1,4 +1,4 @@
-from ccc_auction import app
+from ccc_auction import app, db, bcrypt
 from flask import render_template, url_for, flash, redirect
 from ccc_auction.forms import LoginForm
 from ccc_auction.models import Bidder, Item
@@ -27,4 +27,4 @@ def about():
 
 @app.route("/items")
 def items():
-    return render_template("items.html") #, items=items)
+    return render_template("items.html", items=Item.query.all())

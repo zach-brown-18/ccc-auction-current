@@ -1,9 +1,14 @@
 from datetime import datetime
-from ccc_auction import db
+from ccc_auction import db, login_manager
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Bidder.query.get(str(user_id))
 
 
-class Bidder(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class Bidder(db.Model, UserMixin):
+    id = db.Column(db.String(4), primary_key=True)
     biddername = db.Column(db.String(30), nullable=False)
     items = db.relationship('Item', backref='current_bidder', lazy=True)   # Linked to Item class through 'bidder_id'
 
@@ -12,7 +17,7 @@ class Bidder(db.Model):
 
 
 class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(4), primary_key=True)
     itemname = db.Column(db.String(30), unique=True, nullable=False)
     grouping = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(250))
@@ -28,7 +33,7 @@ class Item(db.Model):
 
 
 class ItemPreset(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(4), primary_key=True)
     open_bid = db.Column(db.Integer, nullable=False)
     raise_value = db.Column(db.Integer, nullable=False)
     list_value = db.Column(db.Integer)
