@@ -5,13 +5,6 @@ from ccc_auction.models import Bidder, Item
 from flask_login import login_user
 
 
-@app.route("/home")
-def home():
-    return render_template("home.html")
-
-@app.route("/test")
-def test():
-    return render_template("test.html")
 
 @app.route("/", methods = ["GET", "POST"])
 def logIn():
@@ -25,14 +18,7 @@ def logIn():
             flash('Login Unsuccessful. Please check your name and ID', 'danger')
     return render_template("login.html", title='Login', form=form)
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
 
 @app.route("/items")
 def items():
     return render_template("items.html", items=Item.query.all())
-
-@app.route("/img")
-def images():
-    return 
