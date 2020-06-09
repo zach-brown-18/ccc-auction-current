@@ -1,0 +1,29 @@
+/* My template */
+* {
+    box-sizing: border-box;
+}
+
+html,body{
+    background-image: url('http://127.0.0.1:5000/static/beach.jpg/') !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+/* Create three columns that float next to each other */
+.column{
+    float: left;
+    padding: 10px;
+    height: 100%;
+}
+
+.left, .right, .middle{
+    width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}

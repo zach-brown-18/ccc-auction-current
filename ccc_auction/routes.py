@@ -9,6 +9,10 @@ from flask_login import login_user
 def home():
     return render_template("home.html")
 
+@app.route("/test")
+def test():
+    return render_template("test.html")
+
 @app.route("/", methods = ["GET", "POST"])
 def logIn():
     form = LoginForm()
@@ -28,3 +32,7 @@ def about():
 @app.route("/items")
 def items():
     return render_template("items.html", items=Item.query.all())
+
+@app.route("/img")
+def images():
+    return 
