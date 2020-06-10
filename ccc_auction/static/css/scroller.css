@@ -1,14 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 /* My template */
 * {
     box-sizing: border-box;
 }
 
 html,body{
-    background-image: url('http://127.0.0.1:5000/static/beach.jpg/') !important;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #ff9999;
     height: 100%;
+    font-family: 'Montserrat', sans-serif;
 }
+
+h1{
+    padding: 10px;
+}
+
+img{
+    width: 100 px;
+    height: 100 px;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+/* For Header */
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 10px;
+    align-items: center;
+    box-sizing: border-box;
+    height: 0px;
+    margin: 0;
+    background-color: #24252A;
+}
+
+li, a, button{
+    font-family: 'Montserrat', sans-serif;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+.nav_links{
+    list-style: none;
+}
+
+.nav_links li a:hover{
+    color: #0088a9;
+}
+/* Header End */
+
 
 /* Create three columns that float next to each other */
 .column{

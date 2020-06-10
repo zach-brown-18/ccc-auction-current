@@ -10,5 +10,6 @@ app.static_folder = 'static'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 from ccc_auction import routes

@@ -7,3 +7,12 @@ class LoginForm(FlaskForm):
     password = PasswordField('Bidder ID', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+class PlaceBid(FlaskForm):    
+    def set_item_id(self, id):
+        self.item_id = str(id)
+    
+    item_id = ''
+    password = PasswordField('Bidder ID', validators=[DataRequired()])
+    submit = SubmitField('Place Bid')

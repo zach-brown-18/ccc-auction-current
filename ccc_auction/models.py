@@ -23,6 +23,8 @@ class Item(db.Model):
     description = db.Column(db.String(250))
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     
+    # raise_value = db.Column(db.Integer, nullable=False)
+
     bidder_id = db.Column(db.String, db.ForeignKey('bidder.id'), nullable=False)   # Linked to Bidder class
     current_bid = db.Column(db.Integer, nullable=False)
 
@@ -35,7 +37,7 @@ class Item(db.Model):
 class ItemPreset(db.Model):
     id = db.Column(db.String(4), primary_key=True)
     open_bid = db.Column(db.Integer, nullable=False)
-    raise_value = db.Column(db.Integer, nullable=False)
+    # raise_value = db.Column(db.Integer, nullable=False)
     list_value = db.Column(db.Integer)
 
     open_time = db.Column(db.DateTime, nullable=False)

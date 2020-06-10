@@ -12,17 +12,88 @@
 
         <div class="row">
             <div class="column left">
-                {% for item in items%}
+                {% for item,biddername,form in z1 %}
                     <h2>{{ item.itemname }}</h1>
                     <p>{{ item.description }}</p>
-                    <img src={{ url_for('static', filename=item.image_file) }}>
+                    <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
+                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-info") }}
+                        </div>
+            
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </form>
                 {% endfor %}
             </div>
             <div class="column middle">
-                <h2>Item Title</h2>
+                {% for item,biddername,form in z2 %}
+                    <h2>{{ item.itemname }}</h1>
+                    <p>{{ item.description }}</p>
+                    <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
+                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-info") }}
+                        </div>
+            
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </form>
+                {% endfor %}
             </div>
             <div class="column right">
-                <h2>Item Title</h2>
+                {% for item,biddername,form in z3 %}
+                    <h2>{{ item.itemname }}</h1>
+                    <p>{{ item.description }}</p>
+                    <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
+                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-info") }}
+                        </div>
+            
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </form>
+                {% endfor %}
             </div>
         </div>
 
