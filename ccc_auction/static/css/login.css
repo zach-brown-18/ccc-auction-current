@@ -1,6 +1,6 @@
 /* My template */
 html,body{
-    background-image: url('http://127.0.0.1:5000/static/child.jpg/') !important;
+    background-image: url('https://ccc-auction.herokuapp.com/static/child.jpg/') !important;
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
