@@ -1,24 +1,52 @@
-/* My template */
 html,body{
-    background-image: url('https://ccc-auction.herokuapp.com/static/child.jpg/') !important;
-    background-repeat: no-repeat;
+    background-image: url('http://127.0.0.1:5000/static/child.jpg/') !important; /* Using local path for testing and development */
     background-size: cover;
-    color: white;
     height: 100%;
+    font-family: 'Numans', sans-serif;
+    color: white;
 }
 
-div.form{
-    display: block;
-    text-align: center;
-    top: 50%;
-    /* padding: 100px 0; */
+.container{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-form{
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-    border: 3px solid green;
-    padding: 30px;
+.card{
+    height: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 378px;
+    background-color: rgba(0,0,0,0.5)
+}
+
+.input-group-prepend span{
+    width: 50px;
+    background-color: #FFC312;
+    color: black;
+    border:0 !important;
+}
+
+.form-control{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    height: 30px;
+}
+
+.form-check-input{
+    width: 20px;
+    height: 20px;
+}
+
+.form-check-label{
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.btn{
+    color: black;
+    background-color: #FFC312;
+    width: 120px;
+    font-size: 16px;
 }
