@@ -69,6 +69,6 @@ def items():
                 db.session.commit()
                 return redirect(url_for('items'))  
             else:
-                flash('Please check your ID', 'danger')          
+                flash('The ID you entered is incorrect. Please check your ID and try again.', 'danger')          
 
     return render_template("items.html", items=items, z1=z1, z2=z2, z3=z3)

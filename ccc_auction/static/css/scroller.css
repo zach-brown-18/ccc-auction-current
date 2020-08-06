@@ -47,6 +47,12 @@ li, a, button{
 .nav_links li a:hover{
     color: #0088a9;
 }
+
+.error-box{
+    /* background-color: rgba(0,0,0,0.5); */
+    padding: 40px;
+    font-size: 20px;
+}
 /* Header End */
 
 
@@ -57,8 +63,10 @@ li, a, button{
     height: 100%;
 }
 
+/* Prevent columns from mashing together */
 .left, .right, .middle{
     width: 33.33%;
+    min-width: 300px;
 }
 
 /* Clear floats after the columns */
