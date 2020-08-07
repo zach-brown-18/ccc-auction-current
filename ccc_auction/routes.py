@@ -58,7 +58,7 @@ def items():
         z2 = zip(items[third:2*third],biddernames[third:2*third],forms2)
         z3 = zip(items[2*third:],biddernames[2*third:],forms3)
 
-        forms = forms1 + forms2 + forms2
+        forms = forms1 + forms2 + forms3
         
         return z1, z2, z3, items, forms
 
