@@ -6,7 +6,7 @@
 }
 
 html,body{
-    background-color: #0085CA;
+    background-image: linear-gradient(to right, #fff1eb 0%, #ace0f9 100%); /* from https://webgradients.com/ */
     height: 100%;
     font-family: 'Montserrat', sans-serif;
 }
