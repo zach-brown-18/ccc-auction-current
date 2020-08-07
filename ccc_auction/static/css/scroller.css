@@ -26,10 +26,10 @@ img{
 header{
     display: flex;
     justify-content: space-between;
-    padding: 30px 10px;
+    padding: 20px;
+    padding-top: 30px;
+    padding-left: 0px;
     align-items: center;
-    box-sizing: border-box;
-    height: 0px;
     margin: 0;
     background-color: #24252A;
 }
@@ -47,19 +47,13 @@ li, a, button{
 .nav_links li a:hover{
     color: #0088a9;
 }
-
-.error-box{
-    /* background-color: rgba(0,0,0,0.5); */
-    padding: 40px;
-    font-size: 20px;
-}
 /* Header End */
 
 
 /* Create three columns that float next to each other */
 .column{
     float: left;
-    padding: 10px;
+    padding: 30px;
     height: 100%;
 }
 

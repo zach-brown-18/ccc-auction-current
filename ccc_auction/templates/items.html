@@ -1,7 +1,3 @@
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
@@ -17,16 +13,15 @@
         <div class="row">
             <div class="column left">
                 {% for item,biddername,form in z1 %}
-                    <h2>{{ item.itemname }}</h1>
+                    <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
-                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+                    <p>Value - {{ item.list_value }}</p>
+                    <b>Current Bid: ${{ item.current_bid }}</b>
+                    <p>High Bidder: {{ item.bidder_id }}</p>
 
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
-                        <div class="form-group">
-                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
-                        </div>
                         <div class="form-group">
                             {{ form.submit(class="btn btn-outline-info") }}
                         </div>
@@ -35,16 +30,15 @@
             </div>
             <div class="column middle">
                 {% for item,biddername,form in z2 %}
-                    <h2>{{ item.itemname }}</h1>
+                    <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
-                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+                    <p>Value - {{ item.list_value }}</p>
+                    <b>Current Bid: ${{ item.current_bid }}</b>
+                    <p>High Bidder: {{ item.bidder_id }}</p>
 
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
-                        <div class="form-group">
-                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
-                        </div>
                         <div class="form-group">
                             {{ form.submit(class="btn btn-outline-info") }}
                         </div>
@@ -53,16 +47,15 @@
             </div>
             <div class="column right">
                 {% for item,biddername,form in z3 %}
-                    <h2>{{ item.itemname }}</h1>
+                    <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
-                    <p>Current Bid: {{ item.current_bid }} - {{ biddername }}</p>
+                    <p>Value - {{ item.list_value }}</p>
+                    <b>Current Bid: ${{ item.current_bid }}</b>
+                    <p>High Bidder: {{ item.bidder_id }}</p>
 
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
-                        <div class="form-group">
-                            {{ form.password(class="form-control form-control-lg", placeholder="ID") }}
-                        </div>
                         <div class="form-group">
                             {{ form.submit(class="btn btn-outline-info") }}
                         </div>

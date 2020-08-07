@@ -14,5 +14,4 @@ class PlaceBid(FlaskForm):
         self.item_id = str(id)
     
     item_id = ''
-    password = PasswordField('Bidder ID', validators=[DataRequired()])
     submit = SubmitField('Place Bid')

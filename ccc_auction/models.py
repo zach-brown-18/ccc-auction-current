@@ -23,10 +23,10 @@ class Item(db.Model):
     description = db.Column(db.String(250))
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     
-    # raise_value = db.Column(db.Integer, nullable=False)
-
     bidder_id = db.Column(db.String, db.ForeignKey('bidder.id'), nullable=False)   # Linked to Bidder class
     current_bid = db.Column(db.Integer, nullable=False)
+    # raise_value = db.Column(db.Integer, nullable=False)
+
 
     item_background = db.relationship('ItemPreset', backref='bid_preset', lazy=True)   # Linked to ItemPreset class through 'item_id'
 
