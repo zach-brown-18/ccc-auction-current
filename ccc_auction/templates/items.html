@@ -18,7 +18,8 @@
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
                     <p>Value - {{ item.list_value }}</p>
                     <b>Current Bid: ${{ item.current_bid }}</b>
-                    <p>High Bidder: {{ item.bidder_id }}</p>
+                    <p>Next Bid: ${{ item.current_bid + 99 }}</p>
+                    <p>High Bidder ID: {{ item.bidder_id }}</p>
 
                     <!-- Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,7 +60,8 @@
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
                     <p>Value - {{ item.list_value }}</p>
                     <b>Current Bid: ${{ item.current_bid }}</b>
-                    <p>High Bidder: {{ item.bidder_id }}</p>
+                    <p>Next Bid: ${{ item.current_bid + 99 }}</p>
+                    <p>High Bidder ID: {{ item.bidder_id }}</p>
 
                     <!-- Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -100,8 +102,9 @@
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
                     <p>Value - {{ item.list_value }}</p>
                     <b>Current Bid: ${{ item.current_bid }}</b>
-                    <p>High Bidder: {{ item.bidder_id }}</p>
-
+                    <p>Next Bid: ${{ item.current_bid + 99 }}</p>
+                    <p>High Bidder ID: {{ item.bidder_id }}</p>
+                    
                     <!-- Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
