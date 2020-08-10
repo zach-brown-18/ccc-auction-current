@@ -1,5 +1,5 @@
 html,body{
-    background-image: url('http://127.0.0.1:5000/static/background_screen.jpg/') !important; /* Using local path for testing and development */
+    background-image: url('https://ccc-auction.herokuapp.com/static/background_screen.jpg/') !important; /* Using local path for testing and development */
     background-size: cover;
     height: 100%;
     font-family: 'Numans', sans-serif;
