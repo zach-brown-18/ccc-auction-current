@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="column left">
-                {% for item,biddername,form in z1 %}
+                {% for item,form in z1 %}
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
@@ -21,12 +21,12 @@
                     <p>Next Bid: ${{ item.current_bid + 99 }}</p>
                     <p>High Bidder ID: {{ item.bidder_id }}</p>
 
-                    <!-- Modal -->
+                    <!-- Confirm Bid Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }}</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + 99 }}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -54,7 +54,7 @@
                 {% endfor %}
             </div>
             <div class="column middle">
-                {% for item,biddername,form in z2 %}
+                {% for item,form in z2 %}
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
@@ -63,12 +63,12 @@
                     <p>Next Bid: ${{ item.current_bid + 99 }}</p>
                     <p>High Bidder ID: {{ item.bidder_id }}</p>
 
-                    <!-- Modal -->
+                    <!-- Confirm Bid Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }}</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + 99 }}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -96,7 +96,7 @@
                 {% endfor %}
             </div>
             <div class="column right">
-                {% for item,biddername,form in z3 %}
+                {% for item,form in z3 %}
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
@@ -105,12 +105,12 @@
                     <p>Next Bid: ${{ item.current_bid + 99 }}</p>
                     <p>High Bidder ID: {{ item.bidder_id }}</p>
                     
-                    <!-- Modal -->
+                    <!-- Confirm Bid Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }}</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + 99 }} </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

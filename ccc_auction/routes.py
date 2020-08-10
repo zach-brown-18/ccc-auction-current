@@ -11,7 +11,6 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         bidder = Bidder.query.filter_by(biddername=form.biddername.data).first()
-        # NEW - Bypassing bcrypt
         if bidder and bidder.id == form.password.data:
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('items'))
@@ -31,7 +30,6 @@ def items():
     def gather_info():
         # Gather all items and bidders
         items = Item.query.all()
-        biddernames = [Bidder.query.filter(Bidder.id == item.bidder_id).first().biddername for item in items]
         third = len(items)//3 # Split by the number of columns
 
         # Build forms
@@ -53,10 +51,10 @@ def items():
             form.set_item_id(item.id)
             forms3.append(form)
         
-        # Package the items, biddernames (soon to be IDs), and forms together for each column
-        z1 = zip(items[:third],biddernames[:third],forms1)
-        z2 = zip(items[third:2*third],biddernames[third:2*third],forms2)
-        z3 = zip(items[2*third:],biddernames[2*third:],forms3)
+        # Package the items and forms together for each column
+        z1 = zip(items[:third],forms1)
+        z2 = zip(items[third:2*third],forms2)
+        z3 = zip(items[2*third:],forms3)
 
         forms = forms1 + forms2 + forms3
         
@@ -67,7 +65,6 @@ def items():
     # Trigger a bid on the item and update the database upon clicking "Place Bid" button
     for form in forms:
         if form.submit.data and form.validate_on_submit():
-            bidder = Bidder.query.filter_by(biddername=current_user.biddername).first()
             item = Item.query.filter(Item.id == form.item_id).first()
             item.current_bid += 99 #item.raise_value
             item.bidder_id = current_user.id
