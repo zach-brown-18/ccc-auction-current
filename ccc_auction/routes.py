@@ -10,7 +10,9 @@ def login():
         return redirect(url_for('items'))
     form = LoginForm()
     if form.validate_on_submit():
+        # Grab the bidder's ID from the database
         bidder = Bidder.query.filter_by(biddername=form.biddername.data).first()
+        # Show the 'items' page if login info is correct
         if bidder and bidder.id == form.password.data:
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('items'))
@@ -28,34 +30,44 @@ def logout():
 @login_required
 def items():
     def gather_info():
-        # Gather all items and bidders
+        # Gather all items
         items = Item.query.all()
-        third = len(items)//3 # Split by the number of columns
 
         # Build forms
-        forms1 = []
-        for item in items[:third]:
+        def buildForm(item):
             form = PlaceBid(prefix=item.id)
-            form.set_item_id(item.id) # Give each form a unique ID to link it to its item
-            forms1.append(form)
-        
-        forms2 = []
-        for item in items[third:2*third]:
-            form = PlaceBid(prefix=item.id)
+            return form
+            
+        def assignItem(form):
+            # Give each form a unique ID to link the form to its item
             form.set_item_id(item.id)
-            forms2.append(form)
         
-        forms3 = []
-        for item in items[2*third:]:
-            form = PlaceBid(prefix=item.id)
-            form.set_item_id(item.id)
-            forms3.append(form)
-        
-        # Package the items and forms together for each column
-        z1 = zip(items[:third],forms1)
-        z2 = zip(items[third:2*third],forms2)
-        z3 = zip(items[2*third:],forms3)
+        def assignGroup(form_group, form):
+            form_group.append(form)
 
+        def buildFormAssignGroup(item, form_group):
+            form = buildForm(item)
+            assignItem(form)
+            assignGroup(form_group, form)
+
+        # Divide into three columns
+        forms1, forms2, forms3 = ([],[],[])
+        third = len(items)//3
+        items1, items2, items3 = (items[:third], items[third:2*third], items[2*third:])
+
+        for item in items1:
+            buildFormAssignGroup(item, forms1)
+
+        for item in items2:
+            buildFormAssignGroup(item, forms2)
+
+        for item in items3:
+            buildFormAssignGroup(item, forms3)
+
+        # Package the items and forms together for each column
+        z1, z2, z3 = (zip(items1,forms1), zip(items2,forms2), zip(items3,forms3))
+        
+        # To loop through all items
         forms = forms1 + forms2 + forms3
         
         return z1, z2, z3, items, forms

@@ -13,6 +13,7 @@
         <div class="row">
             <div class="column left">
                 {% for item,form in z1 %}
+                    <!-- Make an html file to block this code as a function -->
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
@@ -21,6 +22,7 @@
                     <p>Next Bid: ${{ item.current_bid + 99 }}</p>
                     <p>High Bidder ID: {{ item.bidder_id }}</p>
 
+                    <!-- Make an html file to block this code as a function -->
                     <!-- Confirm Bid Modal -->
                     <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
