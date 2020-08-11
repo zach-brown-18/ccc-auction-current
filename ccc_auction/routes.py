@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect
 from ccc_auction.forms import LoginForm, PlaceBid
 from ccc_auction.models import Bidder, Item
 from flask_login import login_user, current_user, logout_user, login_required
-from ccc_auction.routes_displayItems_helper import *
+from ccc_auction.routes_displayItems_helper import gatherForms, placeBidUpdateDatabase
 
 @app.route("/", methods = ["GET", "POST"])
 def login():
