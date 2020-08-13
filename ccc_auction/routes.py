@@ -30,8 +30,8 @@ def logout():
 @app.route("/items", methods=['GET', 'POST'])
 @login_required
 def displayItems():
-    # z variables contain tuples of the form (item_group, form_group)
-    z1, z2, z3, items, forms = gatherForms()
+    # 'column' variables contain tuples of the form (item_group, form_group)
+    column1, column2, column3, items, forms = gatherForms()
 
     # Trigger a bid if button is clicked
     for form in forms:
@@ -39,4 +39,4 @@ def displayItems():
             placeBidUpdateDatabase(form)
             return redirect(url_for('displayItems'))
 
-    return render_template("items.html", items=items, z1=z1, z2=z2, z3=z3)
+    return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3)

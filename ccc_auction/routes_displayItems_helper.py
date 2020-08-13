@@ -11,16 +11,16 @@ def gatherForms():
     buildForms(item_groups, form_groups)
 
     # Package the items and forms together for each column
-    z1, z2, z3 = (zip(item_group, form_group) for item_group, form_group in zip(item_groups, form_groups))
+    column1, column2, column3 = (zip(item_group, form_group) for item_group, form_group in zip(item_groups, form_groups))
     all_forms = []
     for form_group in form_groups:
         all_forms += form_group
     
-    return z1, z2, z3, items, all_forms
+    return column1, column2, column3, items, all_forms
 
 def placeBidUpdateDatabase(form):
     item = Item.query.filter(Item.id == form.item_id).first()
-    item.current_bid += 99 #item.raise_value
+    item.current_bid += item.raise_value
     item.bidder_id = current_user.id
     db.session.commit()
     

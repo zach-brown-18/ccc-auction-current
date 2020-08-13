@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="column left">
-                {% for item,form in z1 %}
+                {% for item,form in column1 %}
                     <!-- Make an html file to block this code as a function -->
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
@@ -56,7 +56,7 @@
                 {% endfor %}
             </div>
             <div class="column middle">
-                {% for item,form in z2 %}
+                {% for item,form in column2 %}
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
@@ -98,7 +98,7 @@
                 {% endfor %}
             </div>
             <div class="column right">
-                {% for item,form in z3 %}
+                {% for item,form in column3 %}
                     <h3>{{ item.itemname }}</h3>
                     <p>{{ item.description }}</p>
                     <img src={{ url_for('static', filename=item.image_file) }} class="w3-round" height="200" width="300">
