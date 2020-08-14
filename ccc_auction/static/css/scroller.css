@@ -22,6 +22,15 @@ img{
     border-radius: 10px;
 }
 
+/* Display item description on hover */
+.description-hidden{
+    display: none;
+}
+ 
+img:hover + .description-hidden{
+    display: block;
+}
+
 /* For Header */
 header{
     display: flex;

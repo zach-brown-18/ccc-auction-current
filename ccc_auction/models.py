@@ -39,7 +39,6 @@ class Item(db.Model):
 class ItemPreset(db.Model):
     id = db.Column(db.String(4), primary_key=True) # autoincrement=True
 
-
     open_time = db.Column(db.DateTime, nullable=False)
     close_time = db.Column(db.DateTime, nullable=False)
 
