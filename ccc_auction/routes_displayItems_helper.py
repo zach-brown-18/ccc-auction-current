@@ -23,6 +23,11 @@ def placeBidUpdateDatabase(form):
     item.current_bid += item.raise_value
     item.bidder_id = current_user.id
     db.session.commit()
+
+def generateConfirmationMessage(form):
+    item = Item.query.filter(Item.id == form.item_id).first()
+    message = f"Successfully placed bid on {item.itemname}"
+    return message
     
 ##### For gatherForms function #####
 def buildForm(item):

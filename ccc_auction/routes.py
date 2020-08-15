@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect
 from ccc_auction.forms import LoginForm, PlaceBid
 from ccc_auction.models import Bidder, Item
 from flask_login import login_user, current_user, logout_user, login_required
-from ccc_auction.routes_displayItems_helper import gatherForms, placeBidUpdateDatabase
+from ccc_auction.routes_displayItems_helper import gatherForms, placeBidUpdateDatabase, generateConfirmationMessage
 
 @app.route("/", methods = ["GET", "POST"])
 def login():
@@ -38,5 +38,7 @@ def displayItems():
         if form.submit.data and form.validate_on_submit():
             placeBidUpdateDatabase(form)
             return redirect(url_for('displayItems'))
+            # message = generateConfirmationMessage(form)
+            # return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3, message=message)
 
     return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3)
