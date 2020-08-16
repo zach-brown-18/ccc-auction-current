@@ -12,11 +12,12 @@ def gatherForms():
 
     # Package the items and forms together for each column
     column1, column2, column3 = (zip(item_group, form_group) for item_group, form_group in zip(item_groups, form_groups))
+    columns = [column1, column2, column3]
     all_forms = []
     for form_group in form_groups:
         all_forms += form_group
     
-    return column1, column2, column3, items, all_forms
+    return columns, items, all_forms
 
 def placeBidUpdateDatabase(form):
     item = Item.query.filter(Item.id == form.item_id).first()

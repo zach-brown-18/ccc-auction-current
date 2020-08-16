@@ -31,7 +31,7 @@ def logout():
 @login_required
 def displayItems():
     # 'column' variables contain tuples of the form (item_group, form_group)
-    column1, column2, column3, items, forms = gatherForms()
+    columns, items, forms = gatherForms()
 
     # Trigger a bid if button is clicked
     for form in forms:
@@ -41,4 +41,4 @@ def displayItems():
             # message = generateConfirmationMessage(form)
             # return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3, message=message)
 
-    return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3)
+    return render_template("items.html", items=items, columns=columns)

@@ -93,10 +93,6 @@ li, a, button{
     float: left;
     padding: 30px;
     height: 100%;
-}
-
-/* Prevent columns from mashing together */
-.left, .right, .middle{
     width: 33.33%;
     min-width: 300px;
 }
