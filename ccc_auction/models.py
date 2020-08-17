@@ -45,4 +45,4 @@ class ItemPreset(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)   # Linked to Item class
 
     def __repr__(self):
-        return f"Item Preset('{self.open_bid}', '{self.raise_value}', '{self.list_value}', '{self.open_time}', '{self.close_time}')"
+        return f"Item Preset('{self.item_id}', {self.open_time}', '{self.close_time}')"

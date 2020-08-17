@@ -1,5 +1,5 @@
 from ccc_auction.forms import PlaceBid
-from ccc_auction.models import Item
+from ccc_auction.models import Item, ItemPreset
 from flask_login import current_user
 from ccc_auction import db
 from datetime import datetime
@@ -19,6 +19,21 @@ def gatherForms():
     
     return columns, items, all_forms
 
+def isValidTime(form):
+    item = Item.query.filter(Item.id == form.item_id).first()
+    item_background = item.item_background[0]
+    open_time = item_background.open_time
+    close_time = item_background.close_time
+    now = datetime.now()
+    if (now >= open_time) and (now <= close_time):
+        return True
+    return False
+
+def formClick(form):
+    if form.submit.data and form.validate_on_submit():
+        return True
+    return False
+
 def placeBidUpdateDatabase(form):
     item = Item.query.filter(Item.id == form.item_id).first()
     item.current_bid += item.raise_value
@@ -29,7 +44,7 @@ def generateConfirmationMessage(form):
     item = Item.query.filter(Item.id == form.item_id).first()
     message = f"Successfully placed bid on {item.itemname}"
     return message
-    
+
 ##### gatherForms helper functions #####
 def buildForm(item):
     form = PlaceBid(prefix=item.id)
@@ -60,11 +75,4 @@ def buildForms(item_groups, form_groups):
     for item_group, form_group in zip(item_groups, form_groups):
         for item in item_group:
             buildFormAssignGroup(item, form_group)
-
-def isValidTime(form):
-    item = Item.query.filter(Item.id == form.item_id).first()
-    now = datetime.now()
-    if (now >= item.open_time) and (now <= item.close_time):
-        return True
-    return False
 ##### End gatherForms helper functions #####

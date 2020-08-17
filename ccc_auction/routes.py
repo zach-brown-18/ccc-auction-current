@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect
 from ccc_auction.forms import LoginForm, PlaceBid
 from ccc_auction.models import Bidder, Item
 from flask_login import login_user, current_user, logout_user, login_required
-from ccc_auction.routes_displayItems_helper import gatherForms, placeBidUpdateDatabase, generateConfirmationMessage
+from ccc_auction.routes_displayItems_helper import gatherForms, generateConfirmationMessage, placeBidUpdateDatabase, formClick, isValidTime
 from ccc_auction.routes_login_helper import getBidderFromLoginForm, biddernameMatchesId
 
 @app.route("/", methods = ["GET", "POST"])
@@ -36,9 +36,7 @@ def displayItems():
 
     # Trigger a bid if button is clicked
     for form in forms:
-        # TODO
-        # if isValidTime(form):
-        if form.submit.data and form.validate_on_submit():
+        if formClick(form) and isValidTime(form):
             placeBidUpdateDatabase(form)
             return redirect(url_for('displayItems'))
 
