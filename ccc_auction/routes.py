@@ -4,6 +4,7 @@ from ccc_auction.forms import LoginForm, PlaceBid
 from ccc_auction.models import Bidder, Item
 from flask_login import login_user, current_user, logout_user, login_required
 from ccc_auction.routes_displayItems_helper import gatherForms, placeBidUpdateDatabase, generateConfirmationMessage
+from ccc_auction.routes_login_helper import getBidderFromLoginForm, biddernameMatchesId
 
 @app.route("/", methods = ["GET", "POST"])
 def login():
@@ -11,15 +12,12 @@ def login():
         return redirect(url_for('displayItems'))
     form = LoginForm()
     if form.validate_on_submit():
-        # Grab the bidder's ID from the database
-        bidder = Bidder.query.filter_by(biddername=form.biddername.data).first()
-        # Show the 'items' page if login info is correct
-        if bidder and bidder.id == form.password.data:
+        bidder = getBidderFromLoginForm(form)
+        if biddernameMatchesId(bidder, form):        
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('displayItems'))
         else:
             flash('Login Unsuccessful. Please check your name and ID', 'danger')
-            
     return render_template("login.html", title='Login', form=form)
 
 @app.route("/logout")
@@ -30,15 +28,26 @@ def logout():
 @app.route("/items", methods=['GET', 'POST'])
 @login_required
 def displayItems():
-    # 'column' variables contain tuples of the form (item_group, form_group)
+    # 'columns' contains lists of tuples, of the form: (item_group, form_group)
     columns, items, forms = gatherForms()
+
+    # TODO
+    # message = generateConfirmationMessage(form)
 
     # Trigger a bid if button is clicked
     for form in forms:
+        # TODO
+        # if isValidTime(form):
         if form.submit.data and form.validate_on_submit():
             placeBidUpdateDatabase(form)
             return redirect(url_for('displayItems'))
-            # message = generateConfirmationMessage(form)
-            # return render_template("items.html", items=items, column1=column1, column2=column2, column3=column3, message=message)
 
     return render_template("items.html", items=items, columns=columns)
+
+@app.route("/your-items", methods=["GET"])
+@login_required
+def displayYourItems():
+    bidder = Bidder.query.filter(Bidder.id == current_user.id).first()
+    items = bidder.items
+    numbered_items = [(item, number) for item, number in zip(items, range(1, len(items)+1))]
+    return render_template("current_user_items.html", items=numbered_items)

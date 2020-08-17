@@ -2,8 +2,8 @@ from ccc_auction.forms import PlaceBid
 from ccc_auction.models import Item
 from flask_login import current_user
 from ccc_auction import db
+from datetime import datetime
 
-##### For displayItems function #####
 def gatherForms():
     items = Item.query.all()
     item_groups = splitItems(items, 3)
@@ -30,13 +30,12 @@ def generateConfirmationMessage(form):
     message = f"Successfully placed bid on {item.itemname}"
     return message
     
-##### For gatherForms function #####
+##### gatherForms helper functions #####
 def buildForm(item):
     form = PlaceBid(prefix=item.id)
     return form
     
 def assignItem(form, item):
-    # Give each form a unique ID to link the form to its item
     form.set_item_id(item.id)
 
 def assignGroup(form_group, form):
@@ -61,5 +60,11 @@ def buildForms(item_groups, form_groups):
     for item_group, form_group in zip(item_groups, form_groups):
         for item in item_group:
             buildFormAssignGroup(item, form_group)
-##### End gatherForms function #####
-##### End displayItems function #####
+
+def isValidTime(form):
+    item = Item.query.filter(Item.id == form.item_id).first()
+    now = datetime.now()
+    if (now >= item.open_time) and (now <= item.close_time):
+        return True
+    return False
+##### End gatherForms helper functions #####

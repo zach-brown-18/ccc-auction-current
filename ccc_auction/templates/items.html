@@ -14,65 +14,58 @@
 
         <div class="row">
             {% for column in columns %}
-            <!-- All HTML content for column -->
-
-                <div class="column">
-
-                    {% for item,form in column %}
-                    <!-- Make an html file/javascript function to block this code as a function -->
-                    <h3>{{ item.itemname }}</h3>                   
-                    <div class="image-holder">
-                        <figure>
-                            <img src={{ url_for('static', filename=item.image_file) }} class="w3-round">
-                        </figure>
-                        <div class="description-hidden">
-                            {{ item.description }}
-                        </div>
+            <div class="column">
+                {% for item,form in column %}
+                <!-- Make an html file/javascript function to block this code as a function -->
+                <h3>{{ item.itemname }}</h3>                   
+                <div class="image-holder">
+                    <figure>
+                        <img src={{ url_for('static', filename=item.image_file) }} class="w3-round">
+                    </figure>
+                    <div class="description-hidden">
+                        {{ item.description }}
                     </div>
-                    <p>Value - ${{ item.list_value }}</p>
-                    <b>Current Bid: ${{ item.current_bid }}</b>
-                    <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
-                    <p>High Bidder ID: {{ item.bidder_id }}</p>
+                </div>
+                <p>Value - ${{ item.list_value }}</p>
+                <b>Current Bid: ${{ item.current_bid }}</b>
+                <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
+                <p>High Bidder ID: {{ item.bidder_id }}</p>
 
-                    <!-- Make an html file to block this code as a function -->
-                    <!-- Confirm Bid Modal -->
-                    <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + item.raise_value }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="">
-                                        {{ form.hidden_tag() }}
-                                        <div class="form-group">
-                                            {{ form.submit(class="btn btn-outline-info") }}
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
+                <!-- Make an html file to block this code as a function -->
+                <!-- Confirm Bid Modal -->
+                <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + item.raise_value }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="">
+                                    {{ form.hidden_tag() }}
+                                    <div class="form-group">
+                                        {{ form.submit(class="btn btn-outline-info") }}
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=#{{ item.id }}>
-                        Place Bid
-                    </button>
-                    <p></p>
-            
-                    {% endfor %}
-
                 </div>
 
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=#{{ item.id }}>
+                    Place Bid
+                </button>
+                <p></p>
+                {% endfor %}
+            </div>
             {% endfor %}
         </div>
-        
         {% endblock %}
     </body>
 </html>

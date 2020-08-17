@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="uft-8">
+        <title>Your Items</title>
+    </head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+
+        <div class="items-page-title">
+            <h1> You Hold the High Bids for: </h1>
+        </div>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item</th>
+                <th scope="col">Your Bid</th>
+              </tr>
+            </thead>
+            <tbody>
+             {% for item, number in items %} 
+              <tr>
+                <th scope="row">{{ number }}</th>
+                <td>{{ item.itemname }}</td>
+                <td>{{ item.current_bid }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+        {% endblock %}
+    </body>
+</html>
