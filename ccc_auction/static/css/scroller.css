@@ -15,12 +15,6 @@ html,body{
     padding: 10px;
 }
 
-/* To confirm bid placement */
-#bid-confirmation-message{
-    display: none;
-    padding: 30px;
-}
-
 img{
     width: 300px;    
     height: 200px;

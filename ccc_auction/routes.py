@@ -31,13 +31,11 @@ def displayItems():
     # 'columns' contains lists of tuples, of the form: (item_group, form_group)
     columns, items, forms = gatherForms()
 
-    # TODO
-    # message = generateConfirmationMessage(form)
-
-    # Trigger a bid if button is clicked
     for form in forms:
         if formClick(form) and isValidTime(form):
             placeBidUpdateDatabase(form)
+            confirmation_message = generateConfirmationMessage(form)
+            flash(confirmation_message)
             return redirect(url_for('displayItems'))
 
     return render_template("items.html", items=items, columns=columns)
