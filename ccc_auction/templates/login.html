@@ -26,7 +26,6 @@
         <div class="card-body">
             <div class="form">
                 <form method="POST" action="">
-                    <!-- Form and Image for Biddername -->
                     {{ form.hidden_tag() }}
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
@@ -34,21 +33,18 @@
                         </div>
                         {{ form.biddername(class="form-control", placeholder="Name") }}
                     </div>
-                    <!-- Form and Image for Password -->
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
                         {{ form.password(class="form-control", placeholder="ID") }}
                     </div>
-                    <!-- Remember me functionality -->
                     <div class="form-group">
                         <div class="form-check">
                             {{ form.remember(class="form-check-input") }}
                             {{ form.remember.label(class="form-check-label") }}
                         </div>
                     </div>
-                    <!-- Submit button -->
                     <div class="form-group">
                         {{ form.submit(class="btn") }}
                     </div>

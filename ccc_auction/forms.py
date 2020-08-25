@@ -10,8 +10,10 @@ class LoginForm(FlaskForm):
 
 
 class PlaceBid(FlaskForm):    
+    # change to int to match new 'models' schema
+    # choose id as int or string
     def set_item_id(self, id):
-        self.item_id = str(id)
+        self.item_id = id
     
-    item_id = ''
+    item_id = None
     submit = SubmitField('Place Bid')

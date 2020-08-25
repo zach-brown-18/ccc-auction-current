@@ -41,17 +41,13 @@ figure{
     border-radius: 10px;
     background-color: #eee;
 }
- 
-figure:hover + .description-hidden{
-    display: block;
+
+.item-holder:hover{
+    background: #999999;
 }
 
-.image-holder:hover .description-hidden{
+.item-holder:hover .description-hidden{
     display: block;
-}
-
-img:hover{
-    transform: scale(1.2);
 }
 
 /* For Header */
