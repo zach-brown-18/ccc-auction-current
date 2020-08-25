@@ -13,19 +13,6 @@
         </div>
 
         <div class="row">
-            {% for item in items %}
-            <div class="item-holder">
-                <h3>{{ item.itemname }}</h3>                   
-                <div class="image-holder">
-                    <figure>
-                        <img src={{ url_for('static', filename=item.image_file) }} class="w3-round">
-                    </figure>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="row">
             {% for column in columns %}
             <div class="column">
                 {% for item,form in column %}
