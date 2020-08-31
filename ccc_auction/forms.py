@@ -14,4 +14,4 @@ class PlaceBid(FlaskForm):
         self.item_id = id
     
     item_id = None
-    submit = SubmitField('Place Bid')
+    submit = SubmitField('Confirm Bid')

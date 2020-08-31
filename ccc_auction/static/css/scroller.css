@@ -35,11 +35,14 @@ figure{
 /* Display item description on hover */
 .description-hidden{
     display: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     border: 1px solid black;
     border-radius: 10px;
     background-color: #eee;
+}
+
+.item-holder{
+    padding: 10px;
 }
 
 .item-holder:hover{
