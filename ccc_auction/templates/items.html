@@ -20,18 +20,33 @@
                     <div class="item-holder">
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
-                            <figure>
-                                <img src={{ url_for('static', filename=item.image_file) }} class="w3-round">
+                            <figure id={{ item.image_file }} data-toggle="modal" data-target=#{{ item.id * 100 }}>
+                                <img src={{ url_for('static', filename=item.image_file) }} class="small-display">
                             </figure>
-                            <div class="description-hidden">
-                                {{ item.description }}
+                        </div>
+
+                        <!-- Make an html file/javascript function to block this code as a function -->
+                        <div class="modal fade" id={{ item.id * 100 }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <img src={{ url_for('static', filename=item.image_file) }} class="modal-image">
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ item.description }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                         <p>Value - ${{ item.list_value }}</p>
                         <b>Current Bid: ${{ item.current_bid }}</b>
                         <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
 
-                        <!-- Make an html file to block this code as a function -->
+                        <!-- Make an html file/javascript function to block this code as a function -->
                         <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

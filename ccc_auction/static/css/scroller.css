@@ -16,12 +16,24 @@ html,body{
 }
 
 img{
-    width: 300px;    
-    height: 200px;
     transform: scale(1);
     transition: .3s ease-in-out;
     background-size: cover;
     border-radius: 10px;
+}
+
+.small-display{
+    width: 300px;    
+    height: 200px;
+    border-radius: 10px;
+}
+
+.small-display:hover{
+    opacity: 0.5;
+}
+
+.modal-image{
+    max-width: 100%;
 }
 
 /* To contain item images */
@@ -29,7 +41,8 @@ figure{
 	width: 300px;
     height: 200px;
     border-radius: 10px;
-	overflow: hidden;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 /* Display item description on hover */
@@ -56,7 +69,6 @@ figure{
 /* For Header */
 header{
     display: flex;
-    /* justify-content: space-between; */
     padding: 20px;
     padding-top: 30px;
     padding-left: 0px;
