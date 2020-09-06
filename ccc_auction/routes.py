@@ -3,7 +3,8 @@ from flask import render_template, url_for, flash, redirect
 from ccc_auction.forms import LoginForm, PlaceBid
 from ccc_auction.models import Bidder, Item
 from flask_login import login_user, current_user, logout_user, login_required
-from ccc_auction.routes_displayItems_helper import gatherForms, generateConfirmationMessage, placeBidUpdateDatabase, formClick, isValidTime, generateTimeNotValidMessage
+from ccc_auction.routes_displayItems_helper import gatherForms, formClick, isValidTime, placeBidUpdateDatabase, generateConfirmationMessage
+from ccc_auction.routes_displayItems_helper import generateItemNotOpenMessage, generateItemClosedMessage
 from ccc_auction.routes_login_helper import getBidderFromLoginForm, biddernameMatchesId
 
 @app.route("/", methods = ["GET", "POST"])
@@ -33,13 +34,17 @@ def displayItems():
 
     for form in forms:
         if formClick(form):
-            if isValidTime(form):
+            isOpen, reason = isValidTime(form)
+            if isOpen:
                 placeBidUpdateDatabase(form)
                 confirmation_message = generateConfirmationMessage(form)
                 flash(confirmation_message)
                 return redirect(url_for('displayItems'))
-            item_not_open_message = generateTimeNotValidMessage(form)
-            flash(item_not_open_message)
+            if reason == "early":
+                explanation = generateItemNotOpenMessage(form)
+            else:
+                explanation = generateItemClosedMessage(form)
+            flash(explanation)
 
     return render_template("items.html", items=items, columns=columns)
 

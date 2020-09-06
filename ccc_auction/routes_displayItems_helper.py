@@ -25,7 +25,11 @@ def isValidTime(form):
     now = datetime.now()
     if (now >= open_time) and (now <= close_time):
         return True
-    return False
+    if (now < open_time):
+        reason = "early"
+    else:
+        reason = "late"
+    return (False,reason)
 
 def formClick(form):
     if form.submit.data and form.validate_on_submit():
@@ -43,11 +47,31 @@ def generateConfirmationMessage(form):
     message = f"Successfully placed bid on {item.itemname}"
     return message
 
-def generateTimeNotValidMessage(form):
+def findItemPreset(form):
     item = Item.query.filter(Item.id == form.item_id).first()
     item_preset = ItemPreset.query.filter(ItemPreset.item_id == item.id).first()
-    message = f"Item not open for bids. This item is open from {item_preset.open_time} til {item_preset.close_time}"
+    return item_preset
+
+def generateItemNotOpenMessage(form):
+    item_preset = findItemPreset(form)
+    opens = item_preset.open_time
+    message = f"Bidding on this option starts {opens.month}/{opens.day}/{opens.year} at {formatDatetimeHour(opens.hour)}"
     return message
+
+def generateItemClosedMessage(form):
+    item_preset = findItemPreset(form)
+    closes = item_preset.close_time
+    message = f"Bidding on this option closed {closes.month}/{closes.day}/{closes.year} at {formatDatetimeHour(closes.hour)}"
+    return message
+
+def formatDatetimeHour(hour):
+    if hour == 0:
+        return f"12 am"
+    if hour <= 11:
+        return f"{hour} am"
+    if hour == 12:
+        return f"{hour} pm"
+    return f"{hour - 12} pm"
 
 ##### gatherForms helper functions #####
 def splitItems(items, n_columns=3):
