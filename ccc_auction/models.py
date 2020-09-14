@@ -29,6 +29,9 @@ class Item(db.Model):
     open_bid = db.Column(db.Integer, nullable=False)
     list_value = db.Column(db.Integer)
 
+    open_time = db.Column(db.DateTime, nullable=False)
+    close_time = db.Column(db.DateTime, nullable=False)
+
 
     item_background = db.relationship('ItemPreset', backref='bid_preset', lazy=True)
 

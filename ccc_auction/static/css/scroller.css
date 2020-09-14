@@ -66,6 +66,14 @@ figure{
     display: block;
 }
 
+.open-status{
+    display: none;
+}
+
+.hidden-time{
+    display: none;
+}
+
 /* For Header */
 header{
     display: flex;
