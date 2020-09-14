@@ -11,7 +11,7 @@ html,body{
     font-family: 'Montserrat', sans-serif;
 }
 
-.items-page-title h1{
+.items-page-title h1,h2{
     padding: 10px;
 }
 
