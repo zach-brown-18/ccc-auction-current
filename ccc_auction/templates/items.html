@@ -10,7 +10,7 @@
 
         <div class="items-page-title">
             <h1> Here is what's for sale </h1>
-            <h2> Auction opens on October 7 at 1:00 pm ET</h2>
+            <h2> Auction opens on October 7 at 8:00 pm ET</h2>
         </div>
 
         <div class="row">
@@ -80,25 +80,25 @@
                             var openTimePython = document.getElementById(id*1000000).innerText;
                             var closeTimePython = document.getElementById(id*100000000).innerText;
 
-                            var openTimeString = openTimePython.slice(0,10) + "T" + openTimePython.slice(12) + "Z";
-                            var closeTimeString = closeTimePython.slice(0,10) + "T" + closeTimePython.slice(12) + "Z";
+                            var openTimeString = openTimePython.slice(0,10) + "T" + openTimePython.slice(12) + "-04:00";
+                            var closeTimeString = closeTimePython.slice(0,10) + "T" + closeTimePython.slice(12) + "-04:00";
 
                             var openTime = new Date(openTimeString);
                             var closeTime = new Date(closeTimeString);
 
                             var modalID = "#" + id*100;
 
-                            var messageOpen = openTime.getMonth() + "/" + openTime.getDay() + "/" + openTime.getFullYear() + " at " + openTime.getHours() + ":" + ('0'+openTime.getMinutes()).slice(-2);
-                            var messageClosed = closeTime.getMonth() + "/" + closeTime.getDay() + "/" + closeTime.getFullYear() + " at " + closeTime.getHours() + ":" + ('0'+closeTime.getMinutes()).slice(-2);
+                            var messageEarly = openTime.getMonth()+1 + "/" + openTime.getDate() + "/" + openTime.getFullYear() + " at " + openTime.getHours() + ":" + ('0'+openTime.getMinutes()).slice(-2);
+                            var messageClosed = closeTime.getMonth()+1 + "/" + closeTime.getDate() + "/" + closeTime.getFullYear() + " at " + closeTime.getHours() + ":" + ('0'+closeTime.getMinutes()).slice(-2);
 
 
                             if (today < openTime) {
                                 $(modalID).modal('toggle')
-                                document.getElementById(id*10000).innerHTML = "Bidding on this item starts " + messageOpen;
+                                document.getElementById(id*10000).innerHTML = "Bidding on this item starts " + openTime;
                                 document.getElementById(id*10000).style.display = "block";
                             } else if (today >= closeTime) {
                                 $(modalID).modal('toggle')
-                                document.getElementById(id*10000).innerHTML = "Bidding on this item starts " + messageClosed;
+                                document.getElementById(id*10000).innerHTML = "Bidding on this item ended " + closeTime;
                                 document.getElementById(id*10000).style.display = "block";
                             }
                         };
