@@ -16,7 +16,6 @@
             {% for column in columns %}
             <div class="column">
                 {% for item,form in column %}
-                <!-- Make an html file/javascript function to block this code as a function -->
                     <div class="item-holder">
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
@@ -25,7 +24,6 @@
                             </figure>
                         </div>
 
-                        <!-- Make an html file/javascript function to block this code as a function -->
                         <div class="modal fade" id={{ item.id * 100 }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -35,6 +33,11 @@
                                     <div class="modal-body">
                                         {{ item.description }}
                                     </div>
+                                    {% if item.restrictions %}
+                                    <div class="modal-body">
+                                        Note: {{ item.restrictions }}
+                                    </div>
+                                    {% endif %}
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
@@ -46,7 +49,6 @@
                         <b>Current Bid: ${{ item.current_bid }}</b>
                         <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
 
-                        <!-- Make an html file/javascript function to block this code as a function -->
                         <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

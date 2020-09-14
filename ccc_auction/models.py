@@ -20,6 +20,7 @@ class Item(db.Model):
     itemname = db.Column(db.String(30), nullable=False)
     grouping = db.Column(db.String(40), nullable=True)
     description = db.Column(db.String(250))
+    restrictions = db.Column(db.String(250), nullable=True)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     
     bidder_id = db.Column(db.String, db.ForeignKey('bidder.id'), nullable=True)
