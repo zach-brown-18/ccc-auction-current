@@ -31,7 +31,6 @@ def logout():
 def displayItems():
     # 'columns' contains lists of tuples, of the form: (item_group, form_group)
     columns, items, forms = gatherForms()
-
     for form in forms:
         if formClick(form):
             isOpen, reason = isValidTime(form)

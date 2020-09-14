@@ -14,7 +14,6 @@ def gatherForms():
     all_forms = []
     for group in form_groups:
         all_forms += group
-    
     return columns, items, all_forms
 
 def isValidTime(form):
