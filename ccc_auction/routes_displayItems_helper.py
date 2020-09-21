@@ -18,17 +18,17 @@ def gatherForms():
 
 def isValidTime(form):
     item = Item.query.filter(Item.id == form.item_id).first()
-    background = item.item_background[0]
-    open_time = background.open_time
-    close_time = background.close_time
+    open_time, close_time = item.open_time, item.close_time
+    reason = None
+    is_open = False
     now = datetime.now()
     if (now >= open_time) and (now <= close_time):
-        return True
+        is_open = True
     if (now < open_time):
         reason = "early"
     else:
         reason = "late"
-    return (False,reason)
+    return (is_open,reason)
 
 def formClick(form):
     if form.submit.data and form.validate_on_submit():
