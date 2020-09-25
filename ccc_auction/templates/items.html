@@ -3,6 +3,31 @@
     <head>
         <meta charset="uft-8">
         <title>Items</title>
+
+        <script>
+            function checkTimeLoadModal(id) {
+                var today = new Date();
+                var openTimePython = document.getElementById("openTime" + id).innerText.trim();
+                var closeTimePython = document.getElementById("closeTime" + id).innerText.trim();
+                var openTimeString = openTimePython.replace(" ","T") + "-04:00";
+                var closeTimeString = closeTimePython.replace(" ","T") + "-04:00";
+                
+                var openTime = new Date(openTimeString);
+                var closeTime = new Date(closeTimeString);
+
+                var modalID = "#confirmBid" + id;
+
+                if (today < openTime) {
+                    $(modalID).modal('toggle')
+                    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item starts " + openTime;
+                    document.getElementById("openStatus" + id).style.display = "block";
+                } else if (today >= closeTime) {
+                    $(modalID).modal('toggle')
+                    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item ended " + closeTime;
+                    document.getElementById("openStatus" + id).style.display = "block";
+                }
+            };
+        </script>
     </head>
     <body>
         {% extends "template.html" %}
@@ -20,12 +45,12 @@
                     <div class="item-holder">
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
-                            <figure id={{ item.image_file }} data-toggle="modal" data-target=#{{ item.id }}>
+                            <figure id={{ item.image_file }} data-toggle="modal" data-target=#largeDisplay{{ item.id }}>
                                 <img src={{ url_for('static', filename=item.image_file) }} class="small-display">
                             </figure>
                         </div>
 
-                        <div class="modal fade" id={{ item.id }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="largeDisplay{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -49,9 +74,11 @@
                         <p>Value - ${{ item.list_value }}</p>
                         <b>Current Bid: ${{ item.current_bid }}</b>
                         <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target=#confirmBid{{ item.id }} onclick=checkTimeLoadModal({{ item.id }})>
+                            Place Bid
+                        </button>
 
-                        <!-- Changed class from "modal fade" -->
-                        <div class="modal" id={{ item.id * 100 }} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal" id="confirmBid{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -74,49 +101,10 @@
                                 </div>
                             </div>
                         </div>
-
-                        <script>
-                        function checkTimeLoadModal(id) {
-                            var openTimePython = document.getElementById(id*1000000).innerText;
-                            var closeTimePython = document.getElementById(id*100000000).innerText;
-
-                            var openTimeString = openTimePython.slice(0,10) + "T" + openTimePython.slice(12) + "-04:00";
-                            var closeTimeString = closeTimePython.slice(0,10) + "T" + closeTimePython.slice(12) + "-04:00";
-
-                            var openTime = new Date(openTimeString);
-                            var closeTime = new Date(closeTimeString);
-
-                            var modalID = "#" + id*100;
-
-                            var messageEarly = openTime.getMonth()+1 + "/" + openTime.getDate() + "/" + openTime.getFullYear() + " at " + openTime.getHours() + ":" + ('0'+openTime.getMinutes()).slice(-2);
-                            var messageClosed = closeTime.getMonth()+1 + "/" + closeTime.getDate() + "/" + closeTime.getFullYear() + " at " + closeTime.getHours() + ":" + ('0'+closeTime.getMinutes()).slice(-2);
-
-
-                            if (today < openTime) {
-                                $(modalID).modal('toggle')
-                                document.getElementById(id*10000).innerHTML = "Bidding on this item starts " + openTime;
-                                document.getElementById(id*10000).style.display = "block";
-                            } else if (today >= closeTime) {
-                                $(modalID).modal('toggle')
-                                document.getElementById(id*10000).innerHTML = "Bidding on this item ended " + closeTime;
-                                document.getElementById(id*10000).style.display = "block";
-                            }
-                        };
-                        var today = new Date();
-                        </script>
-
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target=#{{ item.id * 100 }} onclick=checkTimeLoadModal({{ item.id }})>
-                            Place Bid
-                        </button>
                         <p></p>
-                        <div id={{ item.id * 10000 }} class="open-status"></div>
-                        <div id={{ item.id * 1000000 }} class="hidden-time">
-                            <p>{{ item.open_time }}</p>
-                        </div>
-                        <div id={{ item.id * 100000000 }} class="hidden-time">
-                            <p>{{ item.close_time }}</p>
-                        </div>
-
+                        <div id="openStatus{{ item.id }}" class="open-status"></div>
+                        <div id="openTime{{ item.id }}" class="hidden-time"> <p>{{ item.open_time }}</p> </div>
+                        <div id="closeTime{{ item.id }}" class="hidden-time"> <p>{{ item.close_time }}</p> </div>
                     </div>
                 {% endfor %}
             </div>

@@ -1,5 +1,5 @@
 from ccc_auction.forms import PlaceBid
-from ccc_auction.models import Item, ItemPreset
+from ccc_auction.models import Item
 from flask_login import current_user
 from ccc_auction import db
 from datetime import datetime
@@ -17,7 +17,7 @@ def gatherForms():
     return columns, items, all_forms
 
 def isValidTime(form):
-    item = Item.query.filter(Item.id == form.item_id).first()
+    item = findItem(form)
     open_time, close_time = item.open_time, item.close_time
     reason = None
     is_open = False
@@ -36,30 +36,25 @@ def formClick(form):
     return False
 
 def placeBidUpdateDatabase(form):
-    item = Item.query.filter(Item.id == form.item_id).first()
+    item = findItem(form)
     item.current_bid += item.raise_value
     item.bidder_id = current_user.id
     db.session.commit()
 
 def generateConfirmationMessage(form):
-    item = Item.query.filter(Item.id == form.item_id).first()
+    item = findItem(form)
     message = f"Successfully placed bid on {item.itemname}"
     return message
 
-def findItemPreset(form):
-    item = Item.query.filter(Item.id == form.item_id).first()
-    item_preset = ItemPreset.query.filter(ItemPreset.item_id == item.id).first()
-    return item_preset
-
 def generateItemNotOpenMessage(form):
-    item_preset = findItemPreset(form)
-    opens = item_preset.open_time
+    item = findItem(form)
+    opens = item.open_time
     message = f"Bidding on this option starts {opens.month}/{opens.day}/{opens.year} at {formatDatetimeHour(opens.hour)}"
     return message
 
 def generateItemClosedMessage(form):
-    item_preset = findItemPreset(form)
-    closes = item_preset.close_time
+    item = findItem(form)
+    closes = item.close_time
     message = f"Bidding on this option closed {closes.month}/{closes.day}/{closes.year} at {formatDatetimeHour(closes.hour)}"
     return message
 
@@ -72,6 +67,10 @@ def formatDatetimeHour(hour):
         return f"{hour} pm"
     return f"{hour - 12} pm"
 
+def findItem(form):
+    item = Item.query.filter(Item.id == form.item_id).first()
+    return item
+    
 ##### gatherForms helper functions #####
 def splitItems(items, n_columns=3):
     split = len(items)//n_columns
