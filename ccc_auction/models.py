@@ -23,7 +23,7 @@ class Item(db.Model):
     restrictions = db.Column(db.String(250), nullable=True)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     
-    bidder_id = db.Column(db.String, db.ForeignKey('bidder.id'), nullable=True)
+    bidder_id = db.Column(db.Integer, db.ForeignKey('bidder.id'), nullable=True)
     current_bid = db.Column(db.Integer, nullable=False)
     raise_value = db.Column(db.Integer, nullable=False)
     open_bid = db.Column(db.Integer, nullable=False)

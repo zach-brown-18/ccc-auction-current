@@ -34,6 +34,7 @@ def displayItems():
     for form in forms:
         if formClick(form):
             isOpen, reason = isValidTime(form)
+            # TODO Check if item.current_bid == displayed current bid on modal html
             if isOpen:
                 placeBidUpdateDatabase(form)
                 confirmation_message = generateConfirmationMessage(form)
@@ -45,12 +46,11 @@ def displayItems():
                 explanation = generateItemClosedMessage(form)
             flash(explanation)
 
-    return render_template("items.html", items=items, columns=columns)
+    return render_template("items.html", items=items, columns=columns, bidder=current_user)
 
 @app.route("/your-items", methods=["GET"])
 @login_required
 def displayYourItems():
-    bidder = Bidder.query.filter(Bidder.id == current_user.id).first()
-    items = bidder.items
+    items = current_user.items
     numbered_items = [(item, number) for item, number in zip(items, range(1, len(items)+1))]
     return render_template("current_user_items.html", items=numbered_items)
