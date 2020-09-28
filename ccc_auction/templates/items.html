@@ -4,34 +4,14 @@
         <meta charset="uft-8">
         <title>Items</title>
 
-        <script>
-            function checkTimeLoadModal(id) {
-                var today = new Date();
-                var openTimePython = document.getElementById("openTime" + id).innerText.trim();
-                var closeTimePython = document.getElementById("closeTime" + id).innerText.trim();
-                var openTimeString = openTimePython.replace(" ","T") + "-04:00";
-                var closeTimeString = closeTimePython.replace(" ","T") + "-04:00";
-                
-                var openTime = new Date(openTimeString);
-                var closeTime = new Date(closeTimeString);
-
-                var modalID = "#confirmBid" + id;
-
-                if (today < openTime) {
-                    $(modalID).modal('toggle')
-                    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item starts " + openTime;
-                    document.getElementById("openStatus" + id).style.display = "block";
-                } else if (today >= closeTime) {
-                    $(modalID).modal('toggle')
-                    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item ended " + closeTime;
-                    document.getElementById("openStatus" + id).style.display = "block";
-                }
-            };
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='update.js') }}"></script>
     </head>
     <body>
         {% extends "template.html" %}
         {% block content %}
+
+        <!-- <meta http-equiv="refresh" content="10;url=items"> -->
 
         <div class="items-page-title">
             <h1> Here is what's for sale </h1>
@@ -46,12 +26,12 @@
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
                             <figure id={{ item.image_file }} data-toggle="modal" data-target=#largeDisplay{{ item.id }}>
-                                <img src={{ url_for('static', filename=item.image_file) }} class="small-display">
+                                <img src={{ url_for('static', filename='images/'+item.image_file) }} class="small-display">
                             </figure>
                         </div>
                         <p>Value - ${{ item.list_value }}</p>
-                        <b>Current Bid: ${{ item.current_bid }}</b>
-                        <p>Next Bid: ${{ item.current_bid + item.raise_value }}</p>
+                        <b id="currentBidDisplay{{ item.id }}">Current Bid: ${{ item.current_bid }}</b>
+                        <p id="nextBidDisplay{{ item.id }}">Next Bid: ${{ item.current_bid + item.raise_value }}</p>
                         
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target=#confirmBid{{ item.id }} onclick=checkTimeLoadModal({{ item.id }})>
                             Place Bid
@@ -61,23 +41,22 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + item.raise_value }}</h5>
+                                        <h5 class="modal-title" id="confirmBidTitle{{ item.id }}">Confirm Bid on {{ item.itemname }} for ${{ item.current_bid + item.raise_value }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="">
-                                            {{ form.hidden_tag() }}
-                                            <div class="form-group">
-                                                {% if bidder.id == item.bidder_id %}
-                                                    You already hold the high bid on this item.<br>
-                                                    You may bid higher if you like!
-                                                {% endif %}
-                                                <p></p>
-                                                {{ form.submit(class="btn btn-outline-info") }}
-                                            </div>
-                                        </form>
+                                        <div class="form-group">
+                                            {% if bidder.id == item.bidder_id %}
+                                                You already hold the high bid on this item.<br>
+                                                You may bid higher if you like!
+                                            {% endif %}
+                                            <p></p>
+                                            <button id="confirmBidButton{{ item.id }}" class="btn btn-outline-info updateButton" item_id="{{ item.id }}" data-dismiss="modal">
+                                                Confirm Bid
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -85,8 +64,10 @@
                                 </div>
                             </div>
                         </div>
+
                         <p></p>
                         <div id="openStatus{{ item.id }}" class="open-status"></div>
+                        <div id="confirmationMessage{{ item.id }}" class="confirmation-status"></div>
                         <div id="openTime{{ item.id }}" class="hidden-time"> <p>{{ item.open_time }}</p> </div>
                         <div id="closeTime{{ item.id }}" class="hidden-time"> <p>{{ item.close_time }}</p> </div>
 
@@ -94,7 +75,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <img src={{ url_for('static', filename=item.image_file) }} class="modal-image">
+                                        <img src={{ url_for('static', filename='images/'+item.image_file) }} class="modal-image">
                                     </div>
                                     <div class="modal-body">
                                         {{ item.description }}

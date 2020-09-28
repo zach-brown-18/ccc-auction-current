@@ -66,11 +66,7 @@ figure{
     display: block;
 }
 
-.open-status{
-    display: none;
-}
-
-.hidden-time{
+.open-status, .hidden-time, .confirmation-status{
     display: none;
 }
 
