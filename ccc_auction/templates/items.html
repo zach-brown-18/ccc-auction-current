@@ -47,13 +47,15 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            {% if bidder.id != item.bidder_id %}
-                                                Type your bid in the text box and hit Confirm!<br><br>
-                                                Accepts bids between {{ item.current_bid + item.raise_value }} and {{ item.current_bid + item.raise_value + 1000 }}
-                                            {% elif bidder.id == item.bidder_id %}
-                                                You already hold the high bid on this item.<br><br>
-                                                You may bid higher if you like!
-                                            {% endif %}
+                                            <div id="biddingInstruction{{ item.id }}">
+                                                {% if bidder.id != item.bidder_id %}
+                                                    Type your bid in the text box and hit Confirm!<br><br>
+                                                    Accepts bids between {{ item.current_bid + item.raise_value }} and {{ item.current_bid + item.raise_value + 1000 }}
+                                                {% elif bidder.id == item.bidder_id %}
+                                                    You already hold the high bid on this item.<br><br>
+                                                    You may bid higher if you like!
+                                                {% endif %}
+                                            </div>
                                             <p></p>
                                             <input type="number" id="customBid{{ item.id }}" class="form-control" min="{{ item.current_bid + item.raise_value }}" max ="{{ item.current_bid + 1000 }}" value="{{ item.current_bid + item.raise_value }}"></input>
                                             <p></p>

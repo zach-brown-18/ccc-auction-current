@@ -15,15 +15,22 @@ $(document).ready(function() {
     
             req.done(function(data) {
     
+                // If bid is successful
+
                 var updatedMsg = "Confirm Bid on " + data.item_name + " for $" + data.next_bid;
+                var updatedInstructions = 'You already hold the high bid on this item. <br><br> You may bid higher if you like!'
                 var current_bid_display = "Current Bid: $" + data.current_bid;
                 var next_bid_display = "Next Bid: $" + data.next_bid;
                 $('#confirmBidTitle' + item_id).text(updatedMsg);
                 $('#currentBidDisplay' + item_id).text(current_bid_display);
                 $('#nextBidDisplay' + item_id).text(next_bid_display);
+                $('#biddingInstruction' + item_id).html(updatedInstructions)
+                $('#customBid' + item_id).attr({'min':data.next_bid, 'max':data.next_bid+1000, 'value':data.next_bid})
                 
                 // Inform the user they placed a successful bid
                 generateConfirmation(item_id);
+
+
     
             });
 
@@ -42,35 +49,31 @@ function generateConfirmation(id) {
     document.getElementById("confirmationMessage" + id).style.display = "block";
 };
 
-function earlyBidMessage(id) {
-    var openTime = formatOpenTime(id);
-    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item starts " + openTime;
+function itemClosedMessage(id, time) {
+    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item starts " + time;
     document.getElementById("openStatus" + id).style.display = "block";
+};
+
+function earlyBidMessage(id) {
+    var openTime = formatTime(id, "openTime");
+    itemClosedMessage(id, openTime);
 };
 
 function lateBidMessage(id) {
-    var closeTime = formatCloseTime(id);
-    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item ended " + closeTime;
-    document.getElementById("openStatus" + id).style.display = "block";
+    var closeTime = formatTime(id, "closeTime");
+    itemClosedMessage(id, closeTime);
 };
 
-function formatOpenTime(id) {
-    var openTimePython = document.getElementById("openTime" + id).innerText.trim();
-    var openTimeString = openTimePython.replace(" ","T") + "-04:00";
-    var openTime = new Date(openTimeString);
-    return openTime;
-};
-
-function formatCloseTime(id) {
-    var closeTimePython = document.getElementById("closeTime" + id).innerText.trim();
-    var closeTimeString = closeTimePython.replace(" ","T") + "-04:00";
-    var closeTime = new Date(closeTimeString);
-    return closeTime;
+function formatTime(id, element_name) {
+    var timePython = document.getElementById(element_name + id).innerText.trim();
+    var timeString = timePython.replace(" ","T") + "-04:00";
+    var jsTime = new Date(timeString);
+    return jsTime;
 };
 
 function isEarly(id) {
     var today = new Date();
-    openTime = formatOpenTime(id);
+    openTime = formatTime(id, "openTime");
 
     if (today < openTime) {
         return true;
@@ -80,7 +83,7 @@ function isEarly(id) {
 
 function isLate(id) {
     var today = new Date();
-    closeTime = formatCloseTime(id);
+    var closeTime = formatTime(id, "closeTime");
 
     if (today >= closeTime) {
         return true;
@@ -103,8 +106,8 @@ function isClosed(id) {
 };
 
 function checkTimeLoadModal(id) {
-    openTime = formatOpenTime(id);
-    closeTime = formatCloseTime(id);
+    var openTime = formatTime(id, "openTime");
+    var closeTime = formatTime(id, "closeTime");
 
     var modalID = "#confirmBid" + id;
 
@@ -118,20 +121,3 @@ function checkTimeLoadModal(id) {
         };
     };
 };
-
-// function autoRefresh() {
-//     // Refresh all items on page every 30 seconds
-//     // Use jquery/ajax
-//     // Issues: Removes modal from screen, Resets the page to the top
-
-//     window.onload = setupRefresh;
-
-//     function setupRefresh() {
-//         setTimeout("refreshPage();", 10000); // milliseconds
-//     };
-
-//     function refreshPage() {
-//         window.location = location.href;
-//     };
-
-// };
