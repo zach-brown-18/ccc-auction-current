@@ -6,7 +6,6 @@ def getBidderFromLoginForm(form):
     return bidder
 
 def biddernameMatchesId(bidder, form):
-    # choose password as int or str
     if bidder and bidder.id == int(form.password.data):
         return True
     return False

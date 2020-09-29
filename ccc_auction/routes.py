@@ -1,11 +1,10 @@
 from ccc_auction import app, db
 from flask import render_template, url_for, flash, redirect, request
-from ccc_auction.forms import LoginForm, PlaceBid
+from flask_login import login_user, logout_user, login_required, current_user
+from ccc_auction.forms import LoginForm
 from ccc_auction.models import Bidder, Item
-from flask_login import login_user, current_user, logout_user, login_required
-from ccc_auction.routes_displayItems_helper import gatherForms, formClick, isValidTime, placeBidUpdateDatabase, generateConfirmationMessage
-from ccc_auction.routes_displayItems_helper import generateItemNotOpenMessage, generateItemClosedMessage
-from ccc_auction.routes_login_helper import getBidderFromLoginForm, biddernameMatchesId
+from ccc_auction.routes_helpers.displayItems import groupItemsInColumns
+from ccc_auction.routes_helpers.login import getBidderFromLoginForm, biddernameMatchesId
 
 
 @app.route("/", methods = ["GET", "POST"])
@@ -30,9 +29,8 @@ def logout():
 @app.route("/items", methods=['GET', 'POST'])
 @login_required
 def displayItems():
-    # 'columns' contains three lists, each populated with item and form objects
-    columns, items, forms = gatherForms()
-    return render_template("items.html", items=items, columns=columns, bidder=current_user)
+    columns = groupItemsInColumns(3)
+    return render_template("items.html", columns=columns, bidder=current_user)
 
 @app.route("/update", methods=['GET','POST'])
 @login_required

@@ -18,7 +18,6 @@ class Bidder(db.Model, UserMixin):
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     itemname = db.Column(db.String(30), nullable=False)
-    grouping = db.Column(db.String(40), nullable=True)
     description = db.Column(db.String(250))
     restrictions = db.Column(db.String(250), nullable=True)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
@@ -32,20 +31,7 @@ class Item(db.Model):
     open_time = db.Column(db.DateTime, nullable=False)
     close_time = db.Column(db.DateTime, nullable=False)
 
-
-    item_background = db.relationship('ItemPreset', backref='bid_preset', lazy=True)
-
-    def __repr__(self):
-        return f"Item('{self.itemname}', '{self.current_bid}', '{self.image_file}')"
-
-
-class ItemPreset(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    open_time = db.Column(db.DateTime, nullable=False)
-    close_time = db.Column(db.DateTime, nullable=False)
-
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    grouping = db.Column(db.String(40), nullable=True)
 
     def __repr__(self):
-        return f"Item Preset('{self.item_id}', {self.open_time}', '{self.close_time}')"
+        return f"Item('{self.itemname}', '{self.current_bid}')"

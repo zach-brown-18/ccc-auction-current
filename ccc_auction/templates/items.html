@@ -11,7 +11,6 @@
         {% extends "template.html" %}
         {% block content %}
 
-        <!-- <meta http-equiv="refresh" content="10;url=items"> -->
 
         <div class="items-page-title">
             <h1> Here is what's for sale </h1>
@@ -21,7 +20,7 @@
         <div class="row">
             {% for column in columns %}
             <div class="column">
-                {% for item,form in column %}
+                {% for item in column %}                
                     <div class="item-holder">
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
@@ -32,9 +31,9 @@
                         <p>Value - ${{ item.list_value }}</p>
                         <b id="currentBidDisplay{{ item.id }}">Current Bid: ${{ item.current_bid }}</b>
                         <p id="nextBidDisplay{{ item.id }}">Next Bid: ${{ item.current_bid + item.raise_value }}</p>
-                        
+
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target=#confirmBid{{ item.id }} onclick=checkTimeLoadModal({{ item.id }})>
-                            Place Bid
+                            Start Bidding
                         </button>
 
                         <div class="modal" id="confirmBid{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -48,10 +47,15 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            {% if bidder.id == item.bidder_id %}
-                                                You already hold the high bid on this item.<br>
+                                            {% if bidder.id != item.bidder_id %}
+                                                Type your bid in the text box and hit Confirm!<br><br>
+                                                Accepts bids between {{ item.current_bid + item.raise_value }} and {{ item.current_bid + item.raise_value + 1000 }}
+                                            {% elif bidder.id == item.bidder_id %}
+                                                You already hold the high bid on this item.<br><br>
                                                 You may bid higher if you like!
                                             {% endif %}
+                                            <p></p>
+                                            <input type="number" id="customBid{{ item.id }}" class="form-control" min="{{ item.current_bid + item.raise_value }}" max ="{{ item.current_bid + 1000 }}" value="{{ item.current_bid + item.raise_value }}"></input>
                                             <p></p>
                                             <button id="confirmBidButton{{ item.id }}" class="btn btn-outline-info updateButton" item_id="{{ item.id }}" data-dismiss="modal">
                                                 Confirm Bid
@@ -81,9 +85,9 @@
                                         {{ item.description }}
                                     </div>
                                     {% if item.restrictions %}
-                                    <div class="modal-body">
-                                        Note: {{ item.restrictions }}
-                                    </div>
+                                        <div class="modal-body">
+                                            Note: {{ item.restrictions }}
+                                        </div>
                                     {% endif %}
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

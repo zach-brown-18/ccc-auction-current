@@ -1,7 +1,7 @@
 /* Defines background image */
 /* Sets font and color of text */
 html,body{
-    background-image: url('https://ccc-auction.herokuapp.com/static/background_screen.jpg/') !important; /* Substitute weppage name for "ccc-auction.herokuapp.com */
+    background-image: url('https://ccc-auction.herokuapp.com/static/images/background_screen.jpg/') !important;
     background-size: cover;
     height: 100%;
     font-family: 'Numans', sans-serif;
@@ -9,7 +9,6 @@ html,body{
 }
 
 .all-content{
-    /* display: none; Try this to display loading icon */
     display: flex;
     height: 100%;
     justify-content: center;
