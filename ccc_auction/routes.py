@@ -36,11 +36,12 @@ def displayItems():
 @login_required
 def updateItem():
     item = Item.query.filter(Item.id == request.form['item_id']).first()
-    item.current_bid += item.raise_value
+    new_bid = int(request.form['bid'])
+    item.current_bid = new_bid
     item.bidder_id = current_user.id
     db.session.commit()
     
-    next_bid = item.current_bid + item.raise_value
+    next_bid = new_bid + item.raise_value
     return {'result': 'success', 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
 
 @app.route("/your-items", methods=["GET"])

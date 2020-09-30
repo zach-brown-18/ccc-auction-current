@@ -3,65 +3,124 @@ $(document).ready(function() {
     $('.updateButton').on('click', function() {
 
         var item_id = $(this).attr('item_id');
+        var user_bid = Number($('#customBid' + item_id).val());
 
-        // Check if the bid has closed since the 'confirm bid' modal has been opened.
-        if (isOpen(item_id)) {
+        var min_bid = Number($('#customBid' + item_id).attr('min_bid'));
+        var max_bid = Number($('#customBid' + item_id).attr('max_bid'));
+
+        // Stop and alert user if bid is not in valid range
+
+        if (notWholeNumber(user_bid)) {
+
+            notWholeNumberMessage(item_id);
+
+        } else if (bidTooLow(user_bid, min_bid)) {
+
+            bidTooLowMessage(item_id, min_bid);
+
+        } else if (bidTooHigh(user_bid, max_bid)) {
+
+            bidTooHighMessage(item_id, max_bid)
+
+        } else if (isOpen(item_id)) {
             
             req = $.ajax({
                 url : '/update',
                 type : 'POST',
-                data : {item_id : item_id}
+                data : {item_id : item_id, bid : user_bid}
             });
     
             req.done(function(data) {
     
-                // If bid is successful
-
                 var updatedMsg = "Confirm Bid on " + data.item_name + " for $" + data.next_bid;
-                var updatedInstructions = 'You already hold the high bid on this item. <br><br> You may bid higher if you like!'
+                var updatedInstructions = 'You already hold the high bid on this item. <br><br> You may bid higher if you like!';
                 var current_bid_display = "Current Bid: $" + data.current_bid;
                 var next_bid_display = "Next Bid: $" + data.next_bid;
                 $('#confirmBidTitle' + item_id).text(updatedMsg);
                 $('#currentBidDisplay' + item_id).text(current_bid_display);
                 $('#nextBidDisplay' + item_id).text(next_bid_display);
-                $('#biddingInstruction' + item_id).html(updatedInstructions)
-                $('#customBid' + item_id).attr({'min':data.next_bid, 'max':data.next_bid+1000, 'value':data.next_bid})
+                $('#biddingInstruction' + item_id).html(updatedInstructions);
+                $('#customBid' + item_id).attr({'min_bid':data.next_bid, 'max_bid':data.next_bid+1000, 'value':data.next_bid});
                 
-                // Inform the user they placed a successful bid
                 generateConfirmation(item_id);
-
-
     
             });
 
         } else if (isEarly(item_id)) {
-            earlyBidMessage(id);
+
+            earlyBidMessage(item_id);
+
         } else if (isLate(item_id)) {
-            lateBidMessage(id);
+
+            lateBidMessage(item_id);
+
         }
 
     });
 
 });
 
-function generateConfirmation(id) {
-    document.getElementById("confirmationMessage" + id).innerHTML = "Bid Successful";
+
+function notWholeNumber(user_bid) {
+    if (user_bid % 1 != 0) {
+        return true;
+    }
+    return false;
+};
+
+function bidTooLow(user_bid, min_bid) {
+    if (user_bid < min_bid) {
+        return true;
+    }
+    return false;
+};
+
+function bidTooHigh(user_bid, max_bid) {
+    if (user_bid > max_bid) {
+        return true;
+    }
+    return false;
+};
+
+function setConfirmationMsg(id, msg) {
+    document.getElementById("confirmationMessage" + id).innerHTML = msg;
     document.getElementById("confirmationMessage" + id).style.display = "block";
 };
 
+function notWholeNumberMessage(id) {
+    var msg = "Please bid in whole numbers only. Kindly place another bid using whole numbers!";
+    setConfirmationMsg(id, msg);
+};
+
+function bidTooLowMessage(id, min_bid) {
+    var msg = "The minimum bid for this item is $" + min_bid + ". Please place a bid higher than this value.";
+    setConfirmationMsg(id, msg);
+};
+
+function bidTooHighMessage(id, max_bid) {
+    var msg = "There is a raise limit of $1000 per bid. The maximum next bid is $" + max_bid + ". Please place multiple bids if you would like to bid higher!";
+    setConfirmationMsg(id, msg);
+};
+
+function generateConfirmation(id) {
+    setConfirmationMsg(id, "Bid Successful");
+};
+
 function itemClosedMessage(id, time) {
-    document.getElementById("openStatus" + id).innerHTML = "Bidding on this item starts " + time;
-    document.getElementById("openStatus" + id).style.display = "block";
+    var msg = "Bidding on this item starts " + time;
+    setConfirmationMsg(id, msg)
 };
 
 function earlyBidMessage(id) {
     var openTime = formatTime(id, "openTime");
-    itemClosedMessage(id, openTime);
+    var msg = "Bidding on this item starts " + openTime;
+    setConfirmationMsg(id, msg);
 };
 
 function lateBidMessage(id) {
     var closeTime = formatTime(id, "closeTime");
-    itemClosedMessage(id, closeTime);
+    var msg = "Bidding ended " + closeTime;
+    setConfirmationMsg(id, msg);
 };
 
 function formatTime(id, element_name) {
