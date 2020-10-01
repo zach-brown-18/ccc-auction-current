@@ -45,7 +45,7 @@ def updateItem():
         db.session.commit()
 
         next_bid = new_bid + item.raise_value
-        return {'result': 'success', 'item_name' : 'We Made It', 'current_bid' : item.current_bid, 'next_bid' : next_bid}
+        return {'result': 'success', 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
     
     next_bid = item.current_bid + item.raise_value
     return {'result': 'failure', 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
