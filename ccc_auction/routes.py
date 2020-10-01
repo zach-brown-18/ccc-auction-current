@@ -18,7 +18,7 @@ def login():
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('displayItems'))
         else:
-            flash('Login Unsuccessful. Please check your name and ID', 'danger')
+            flash('Login Unsuccessful. Please check your name and ID. Username is your first initial followed by your last name.', 'danger')
     return render_template("login.html", title='Login', form=form)
 
 @app.route("/logout")

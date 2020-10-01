@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    setAuctionStatusHeader();
+
     $('.updateButton').on('click', function() {
 
         var item_id = $(this).attr('item_id');
@@ -8,12 +10,21 @@ $(document).ready(function() {
         var min_bid = Number($('#customBid' + item_id).attr('min_bid'));
         var max_bid = Number($('#customBid' + item_id).attr('max_bid'));
         var last_loaded_bid = Number($('#customBid' + item_id).attr('current_bid'));
+        
+        var success_color = "#00cc00";
+        var failed_color = "#e2725b";
 
         // Stop and alert user if bid is not in valid range
 
-        if (bidTooLow(user_bid, min_bid)) {bidTooLowMessage(item_id, min_bid);
-        } else if (bidTooHigh(user_bid, max_bid)) {bidTooHighMessage(item_id, max_bid);
-        } else if (notWholeNumber(user_bid)) {notWholeNumberMessage(item_id);
+        if (bidTooLow(user_bid, min_bid)) {
+            bidTooLowMessage(item_id, min_bid);
+            flashItem(item_id, failed_color);
+        } else if (bidTooHigh(user_bid, max_bid)) {
+            bidTooHighMessage(item_id, max_bid);
+            flashItem(item_id, failed_color);
+        } else if (notWholeNumber(user_bid)) {
+            notWholeNumberMessage(item_id);
+            flashItem(item_id, failed_color);
         } else if (isOpen(item_id)) {
             
             req = $.ajax({
@@ -29,22 +40,17 @@ $(document).ready(function() {
             req.done(function(data) {
                 
                 // Update html
-                var updatedMsg = "Confirm Bid on " + data.item_name + " for $" + data.next_bid;
-                var current_bid_display = "Current Bid: $" + data.current_bid;
-                var next_bid_display = "Next Bid: $" + data.next_bid;
-                $('#confirmBidTitle' + item_id).text(updatedMsg);
-                $('#currentBidDisplay' + item_id).text(current_bid_display);
-                $('#nextBidDisplay' + item_id).text(next_bid_display);
-                $('#customBid' + item_id).attr({'min_bid':data.next_bid, 'max_bid':data.next_bid+1000, 'value':data.next_bid});
-                $('#customBid' + item_id).attr({'current_bid':data.current_bid});
+                updateHTML(item_id, data);
 
                 // Inform user of their bid status
                 if (data.result == 'success') {
                     var updatedInstructions = 'You already hold the high bid on this item. <br><br> You may bid higher if you like!';
                     $('#biddingInstruction' + item_id).html(updatedInstructions);
                     confirmationMessage(item_id);
+                    flashItem(item_id, success_color);
                 } else if (data.result == 'failure') {
                     biddingConflictMessage(item_id);
+                    flashItem(item_id, failed_color);
                 }
                 
             });
@@ -57,6 +63,36 @@ $(document).ready(function() {
 
 });
 
+function setAuctionStatusHeader() {
+    auction_open_text = $('#auctionOpenTime').innerHTML;
+    
+    var today = new Date();
+    open_time = formatTime(1, "openTime");
+    close_time = formatTime(1, "closeTime");
+    if (today >= open_time) {
+        auction_open_text = "Auction open until October 18 at 9:00 pm ET";
+    } else if (today >= close_time) {
+        auction_open_text = "The auction has ended!";
+    }
+};
+
+function flashItem(id, color) {
+
+    $('#itemHolder' + id).fadeOut(500).fadeIn(500);
+    document.getElementById('itemHolder' + id).style.backgroundColor = color;
+    // setTimeout(resetItemColor(id), 3000);
+
+};
+
+function resetItemColor(id) {
+    document.getElementById('itemHolder' + id).style.backgroundColor = null;
+};
+
+function callback(id) {
+    setTimeout(function() {
+      $( "#itemHolder" + id ).removeAttr( "style" ).hide().fadeIn();
+    }, 1000 );
+  };
 
 function notWholeNumber(user_bid) {
     if (user_bid % 1 != 0) {return true;}
@@ -150,6 +186,17 @@ function isOpen(id) {
 function isClosed(id) {
     if (isEarly(id) || isLate(id)) {return true;};
     return false;
+};
+
+function updateHTML(id, data) {
+    var updatedMsg = "Confirm Bid on " + data.item_name + " for $" + data.next_bid;
+    var current_bid_display = "Current Bid: $" + data.current_bid;
+    var next_bid_display = "Next Bid: $" + data.next_bid;
+    $('#confirmBidTitle' + id).text(updatedMsg);
+    $('#currentBidDisplay' + id).text(current_bid_display);
+    $('#nextBidDisplay' + id).text(next_bid_display);
+    $('#customBid' + id).attr({'min_bid':data.next_bid, 'max_bid':data.next_bid+1000, 'value':data.next_bid});
+    $('#customBid' + id).attr({'current_bid':data.current_bid});
 };
 
 function checkTimeLoadModal(id) {

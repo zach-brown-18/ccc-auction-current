@@ -45,25 +45,12 @@ figure{
     cursor: pointer;
 }
 
-/* Display item description on hover */
-.description-hidden{
-    display: none;
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: #eee;
-}
-
 .item-holder{
     padding: 10px;
 }
 
 .item-holder:hover{
     background: #999999;
-}
-
-.item-holder:hover .description-hidden{
-    display: block;
 }
 
 .open-status, .hidden-time, .confirmation-status{

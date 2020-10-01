@@ -5,6 +5,7 @@
         <title>Items</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script srt="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="{{ url_for('static', filename='update.js') }}"></script>
     </head>
     <body>
@@ -14,14 +15,14 @@
 
         <div class="items-page-title">
             <h1> Here is what's for sale </h1>
-            <h2> Auction opens on October 7 at 8:00 pm ET</h2>
+            <h2 id="auctionOpenTime"> Auction opens on October 7 at 8:00 am ET</h2>
         </div>
 
         <div class="row">
             {% for column in columns %}
             <div class="column">
                 {% for item in column %}                
-                    <div class="item-holder">
+                    <div id="itemHolder{{ item.id }}" class="item-holder">
                         <h3>{{ item.itemname }}</h3>                   
                         <div class="image-holder">
                             <figure id={{ item.image_file }} data-toggle="modal" data-target=#largeDisplay{{ item.id }}>
@@ -89,9 +90,15 @@
                                         {{ item.description }}
                                     </div>
                                     {% if item.restrictions %}
-                                        <div class="modal-body">
-                                            Note: {{ item.restrictions }}
-                                        </div>
+                                        {% if item.restrictions[0] == '*' %}
+                                            <div class="modal-body">
+                                                {{ item.restrictions }}
+                                            </div>
+                                        {% else %}
+                                            <div class="modal-body">
+                                                Note: {{ item.restrictions }}
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
