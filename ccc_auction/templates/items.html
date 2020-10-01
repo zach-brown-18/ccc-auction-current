@@ -58,7 +58,7 @@
                                             </div>
                                             <p></p>
                                             <form>
-                                                <input type="number" id="customBid{{ item.id }}" class="form-control" min_bid="{{ item.current_bid + item.raise_value }}" max_bid="{{ item.current_bid + 1000 }}" value="{{ item.current_bid + item.raise_value }}"></input>
+                                                <input type="number" id="customBid{{ item.id }}" class="form-control" min_bid="{{ item.current_bid + item.raise_value }}" max_bid="{{ item.current_bid + 1000 }}" value="{{ item.current_bid + item.raise_value }}" current_bid="{{ item.current_bid }}"></input>
                                                 <p></p>                                                
                                                 <button type="submit" id="confirmBidButton{{ item.id }}" class="btn btn-outline-info updateButton" item_id="{{ item.id }}" data-dismiss="modal">
                                                     Confirm Bid
