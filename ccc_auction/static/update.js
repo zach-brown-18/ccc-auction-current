@@ -77,22 +77,9 @@ function setAuctionStatusHeader() {
 };
 
 function flashItem(id, color) {
-
     $('#itemHolder' + id).fadeOut(500).fadeIn(500);
     document.getElementById('itemHolder' + id).style.backgroundColor = color;
-    // setTimeout(resetItemColor(id), 3000);
-
 };
-
-function resetItemColor(id) {
-    document.getElementById('itemHolder' + id).style.backgroundColor = null;
-};
-
-function callback(id) {
-    setTimeout(function() {
-      $( "#itemHolder" + id ).removeAttr( "style" ).hide().fadeIn();
-    }, 1000 );
-  };
 
 function notWholeNumber(user_bid) {
     if (user_bid % 1 != 0) {return true;}

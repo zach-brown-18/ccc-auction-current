@@ -31,8 +31,14 @@
                             </figure>
                         </div>
                         <p>Value - ${{ item.list_value }}</p>
-                        <b id="currentBidDisplay{{ item.id }}">Current Bid: ${{ item.current_bid }}</b>
-                        <p id="nextBidDisplay{{ item.id }}">Next Bid: ${{ item.current_bid + item.raise_value }}</p>
+
+                        {% if item.open_bid != item.current_bid %}
+                            <b id="currentBidDisplay{{ item.id }}">Current Bid: ${{ item.current_bid }}</b>
+                            <p id="nextBidDisplay{{ item.id }}">Next Bid: ${{ item.current_bid + item.raise_value }}</p>
+                        {% else %}
+                            <b id="currentBidDisplay{{ item.id }}" style="display:none;">Current Bid: ${{ item.current_bid }}</b>
+                            <p id="nextBidDisplay{{ item.id }}">Starting Bid: ${{ item.open_bid }}</p>
+                        {% endif %}
 
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target=#confirmBid{{ item.id }} onclick=checkTimeLoadModal({{ item.id }})>
                             Start Bidding
