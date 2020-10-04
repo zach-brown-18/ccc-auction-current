@@ -8,28 +8,68 @@
         {% extends "template.html" %}
         {% block content %}
 
-        <div class="items-page-title">
-            <h1> You Hold the High Bids for: </h1>
-        </div>
+        {% if debbie %}
 
-        <table class="table">
+          <div class="items-page-title">
+            <h1> Hi Debbie! All the leading bids are listed below. </h1>
+          </div>
+
+          <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Item</th>
-                <th scope="col">Your Bid</th>
+                <th scope="col">Leading Bid</th>
+                <th scope="col">Bidder ID</th>
+                <th scope="col">Bidder Username</th>
               </tr>
             </thead>
             <tbody>
-             {% for item, number in items %} 
+            {% for item, number in items %} 
               <tr>
                 <th scope="row">{{ number }}</th>
-                <td>{{ item.itemname }}</td>
-                <td>{{ item.current_bid }}</td>
+                <td>{{ item[0].itemname }}</td>
+                <td>{{ item[0].current_bid }}</td>
+                <td>{{ item[0].bidder_id }}</td>
+                <td>{{ item[1] }}</td>
               </tr>
               {% endfor %}
             </tbody>
-        </table>
+          </table>
+
+        {% elif items %}
+
+          <div class="items-page-title">
+              <h1> You Hold the High Bids for: </h1>
+          </div>
+
+          <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item</th>
+                  <th scope="col">Your Bid</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item, number in items %} 
+                <tr>
+                  <th scope="row">{{ number }}</th>
+                  <td>{{ item.itemname }}</td>
+                  <td>{{ item.current_bid }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+        
+        {% else %}
+
+          <div class="items-page-title">
+            <h1> Place a bid on the 'Items' page and return here to see it. </h1>
+            <h3> You do not currently hold the high bid for any items. </h3>
+          </div>
+
+        {% endif %}
 
         {% endblock %}
     </body>

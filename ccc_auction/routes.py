@@ -36,6 +36,8 @@ def displayItems():
 @login_required
 def updateItem():
     item = Item.query.filter(Item.id == request.form['item_id']).first()
+    result = 'failure'
+    next_bid = item.current_bid + item.raise_value
 
     bid_is_current = item.current_bid == int(request.form['last_loaded_bid'])
     if bid_is_current:
@@ -44,15 +46,30 @@ def updateItem():
         item.bidder_id = current_user.id
         db.session.commit()
 
+        result = 'success'
         next_bid = new_bid + item.raise_value
-        return {'result': 'success', 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
     
-    next_bid = item.current_bid + item.raise_value
-    return {'result': 'failure', 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
+    return {'result': result, 'item_name' : item.itemname, 'current_bid' : item.current_bid, 'next_bid' : next_bid}
 
 @app.route("/your-items", methods=["GET"])
 @login_required
 def displayYourItems():
     items = current_user.items
     numbered_items = [(item, number) for item, number in zip(items, range(1, len(items)+1))]
-    return render_template("current_user_items.html", items=numbered_items)
+
+    debbie = False
+    debbie_user = Bidder.query.filter(Bidder.id == 60).first()
+    if current_user == debbie_user:
+        debbie = True
+        items = []
+        bidders = Bidder.query.all()
+        for bidder in bidders:
+            if bidder.items:
+                for item in bidder.items:
+                    bidder_username = Bidder.query.filter(Bidder.id == item.bidder_id).first().biddername
+                    items.append((item, bidder_username))
+        
+        numbered_items = [(item, number) for item, number in zip(items, range(1, len(items)+1))]
+
+
+    return render_template("current_user_items.html", items=numbered_items, debbie=debbie)

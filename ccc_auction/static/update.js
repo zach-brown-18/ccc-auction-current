@@ -49,6 +49,8 @@ $(document).ready(function() {
                     confirmationMessage(item_id);
                     flashItem(item_id, success_color);
                 } else if (data.result == 'failure') {
+                    var updatedInstructions ='Type your bid in the text box and hit Confirm! <br><br> Accepts bids between ' + data.next_bid + ' and ' + data.next_bid + 1000;
+                    $('#biddingInstruction' + item_id).html(updatedInstructions);
                     biddingConflictMessage(item_id);
                     flashItem(item_id, failed_color);
                 }
