@@ -11,6 +11,11 @@ def getBidderFromLoginForm(form):
     return bidder
 
 def biddernameMatchesId(bidder, form):
+    reason = 'none'
     if bidder and bidder.id == int(form.password.data):
-        return True
-    return False
+        return True, 'success'
+    elif not bidder:
+        return False, 'no bidder'
+    elif bidder.id != int(form.password.data):
+        return False, 'bidder id != form input'
+    return False, 'none'

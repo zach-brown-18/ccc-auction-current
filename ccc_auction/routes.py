@@ -14,11 +14,17 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         bidder = getBidderFromLoginForm(form)
-        if biddernameMatchesId(bidder, form):        
+        form_data_success, reason = biddernameMatchesId(bidder, form)
+        if form_data_success:
             login_user(bidder, remember=form.remember.data)
             return redirect(url_for('displayItems'))
+        elif reason == 'no bidder':
+            flash('Login Unsuccessful. Please check your user name. Username is your first initial followed by your last name.', 'danger')
+        elif reason == 'bidder id != form input':
+            flash('Login Unsuccessful. Please check your bidder ID', 'danger')
         else:
-            flash('Login Unsuccessful. Please check your name and ID. Username is your first initial followed by your last name.', 'danger')
+            flash('Login Unsuccessful. Please check your user name and ID. Username is your first initial followed by your last name.', 'danger')
+
     return render_template("login.html", title='Login', form=form)
 
 @app.route("/logout")
