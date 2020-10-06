@@ -58,7 +58,7 @@
                                             <div id="biddingInstruction{{ item.id }}">
                                                 {% if bidder.id != item.bidder_id %}
                                                     Type your bid in the text box and hit Confirm!<br><br>
-                                                    Accepts bids between {{ item.current_bid + item.raise_value }} and {{ item.current_bid + item.raise_value + 1000 }}
+                                                    Accepts bids between {{ item.current_bid + item.raise_value }} and {{ item.current_bid + 1000 }}
                                                 {% elif bidder.id == item.bidder_id %}
                                                     You already hold the high bid on this item.<br><br>
                                                     You may bid higher if you like!
