@@ -39,7 +39,6 @@ $(document).ready(function() {
 
             req.done(function(data) {
                 
-                // Update html
                 updateHTML(item_id, data);
 
                 // Inform user of their bid status
@@ -66,15 +65,13 @@ $(document).ready(function() {
 });
 
 function setAuctionStatusHeader() {
-    auction_open_text = $('#auctionOpenTime').innerHTML;
-    
     var today = new Date();
     open_time = formatTime(1, "openTime");
     close_time = formatTime(1, "closeTime");
     if (today >= open_time) {
-        auction_open_text = "Auction open until October 18 at 9:00 pm ET";
+        $('#auctionOpenTime').text("Auction open until October 18 at 9:00 pm ET");
     } else if (today >= close_time) {
-        auction_open_text = "The auction has ended!";
+        $('#auctionOpenTime').text("The auction has ended!");
     }
 };
 
